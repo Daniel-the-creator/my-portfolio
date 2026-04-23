@@ -18,6 +18,7 @@ class ProjectsSection extends StatelessWidget {
       icon: Icons.security_rounded,
       color: Color(0xFF6C63FF),
       liveUrl: 'https://exeat-management-system-project.vercel.app/',
+      githubUrl: null,
     ),
     const _ProjectData(
       title: 'Personal Portfolio',
@@ -27,6 +28,8 @@ class ProjectsSection extends StatelessWidget {
       techStack: ['Flutter Web', 'Dart', 'Responsive UI'],
       icon: Icons.person_rounded,
       color: Color(0xFF00D9FF),
+      liveUrl: null,
+      githubUrl: null,
     ),
     const _ProjectData(
       title: 'Jenious Landing Page',
@@ -36,6 +39,8 @@ class ProjectsSection extends StatelessWidget {
       techStack: ['HTML', 'CSS', 'JavaScript'],
       icon: Icons.web_rounded,
       color: Color(0xFFE040FB),
+      liveUrl: null,
+      githubUrl: null,
     ),
   ];
 
@@ -102,8 +107,8 @@ class _ProjectData {
     required this.techStack,
     required this.icon,
     required this.color,
-    this.liveUrl,
-    this.githubUrl,
+    this.liveUrl = null,
+    this.githubUrl = null,
   });
 }
 

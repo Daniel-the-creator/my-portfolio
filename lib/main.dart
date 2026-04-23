@@ -318,9 +318,8 @@ class _NavLinkState extends State<_NavLink> {
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 200),
               style: GoogleFonts.inter(
-                color: _isHovering
-                    ? AppColors.primary
-                    : AppColors.textSecondary,
+                color:
+                    _isHovering ? AppColors.primary : AppColors.textSecondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -379,9 +378,7 @@ class _GitHubButtonState extends State<_GitHubButton> {
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(AppRadius.sm),
             border: Border.all(
-              color: _isHovering
-                  ? AppColors.primary
-                  : AppColors.border,
+              color: _isHovering ? AppColors.primary : AppColors.border,
             ),
           ),
           child: Row(
@@ -390,9 +387,8 @@ class _GitHubButtonState extends State<_GitHubButton> {
               Icon(
                 Icons.code_rounded,
                 size: 16,
-                color: _isHovering
-                    ? AppColors.primary
-                    : AppColors.textSecondary,
+                color:
+                    _isHovering ? AppColors.primary : AppColors.textSecondary,
               ),
               const SizedBox(width: AppSpacing.sm),
               Text(
@@ -400,9 +396,8 @@ class _GitHubButtonState extends State<_GitHubButton> {
                 style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: _isHovering
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
+                  color:
+                      _isHovering ? AppColors.primary : AppColors.textSecondary,
                 ),
               ),
             ],
@@ -568,9 +563,8 @@ class _DrawerItemState extends State<_DrawerItem> {
               Text(
                 widget.title,
                 style: GoogleFonts.spaceGrotesk(
-                  color: _isHovering
-                      ? AppColors.primary
-                      : AppColors.textPrimary,
+                  color:
+                      _isHovering ? AppColors.primary : AppColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
