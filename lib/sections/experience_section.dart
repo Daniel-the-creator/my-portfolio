@@ -26,6 +26,7 @@ class ExperienceSection extends StatelessWidget {
       details: [
         'Designed and built cross-platform mobile apps using Flutter for student use cases, including an Exeat Management system.',
         'Integrated Firebase for authentication and real-time database functionality.',
+        'Focused on creating an intuitive user experience and responsive UI.',
       ],
     ),
     const _ExperienceData(
@@ -125,92 +126,160 @@ class _TimelineItemState extends State<_TimelineItem> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 800;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 800;
+    final isSmallMobile = screenWidth < 400;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Timeline rail
-            if (!isMobile) ...[
-              SizedBox(
-                width: 60,
-                child: Column(
-                  children: [
-                    // Dot
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _isHovering
-                            ? AppColors.primary.withOpacity(0.2)
-                            : AppColors.surfaceVariant,
-                        border: Border.all(
-                          color: _isHovering
-                              ? AppColors.primary
-                              : AppColors.border,
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(
-                        widget.data.icon,
-                        size: 18,
-                        color: _isHovering
-                            ? AppColors.primary
-                            : AppColors.textMuted,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Timeline rail
+          if (!isMobile) ...[
+            SizedBox(
+              width: 60,
+              child: Column(
+                children: [
+                  // Dot
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _isHovering
+                          ? AppColors.primary.withOpacity(0.2)
+                          : AppColors.surfaceVariant,
+                      border: Border.all(
+                        color:
+                            _isHovering ? AppColors.primary : AppColors.border,
+                        width: 2,
                       ),
                     ),
-                    // Line
-                    if (!widget.isLast)
-                      Expanded(
-                        child: Container(
-                          width: 2,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                AppColors.border,
-                                AppColors.border.withOpacity(0.2),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppSpacing.lg),
-            ],
-            // Card content
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: widget.isLast ? 0 : AppSpacing.xxl,
-                ),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  decoration: BoxDecoration(
-                    color: _isHovering
-                        ? AppColors.surfaceVariant.withOpacity(0.6)
-                        : AppColors.surfaceVariant.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(AppRadius.lg),
-                    border: Border.all(
-                      color: _isHovering
-                          ? AppColors.primary.withOpacity(0.3)
-                          : AppColors.border.withOpacity(0.3),
+                    child: Icon(
+                      widget.data.icon,
+                      size: 18,
+                      color:
+                          _isHovering ? AppColors.primary : AppColors.textMuted,
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title + Company
+                  // Line — use a fixed large height instead of Expanded
+                  if (!widget.isLast)
+                    Container(
+                      width: 2,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.border,
+                            AppColors.border.withOpacity(0.2),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppSpacing.lg),
+          ],
+          // Card content
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: widget.isLast
+                    ? 0
+                    : isMobile
+                        ? AppSpacing.lg
+                        : AppSpacing.xxl,
+              ),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                padding: EdgeInsets.all(
+                  isMobile ? AppSpacing.lg : AppSpacing.xl,
+                ),
+                decoration: BoxDecoration(
+                  color: _isHovering
+                      ? AppColors.surfaceVariant.withOpacity(0.6)
+                      : AppColors.surfaceVariant.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                  border: Border.all(
+                    color: _isHovering
+                        ? AppColors.primary.withOpacity(0.3)
+                        : AppColors.border.withOpacity(0.3),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Mobile icon indicator
+                    if (isMobile) ...[
+                      Row(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            padding: const EdgeInsets.all(AppSpacing.sm),
+                            decoration: BoxDecoration(
+                              color: _isHovering
+                                  ? AppColors.primary.withOpacity(0.15)
+                                  : AppColors.primary.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(AppRadius.sm),
+                            ),
+                            child: Icon(
+                              widget.data.icon,
+                              size: 16,
+                              color: _isHovering
+                                  ? AppColors.primary
+                                  : AppColors.textMuted,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          // Date badge on mobile - inline with icon
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.md,
+                              vertical: AppSpacing.xs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.accent.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(AppRadius.sm),
+                            ),
+                            child: Text(
+                              widget.data.date,
+                              style: GoogleFonts.inter(
+                                color: AppColors.accent,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                    ],
+                    // Title + Company
+                    if (isMobile) ...[
+                      Text(
+                        widget.data.title,
+                        style: GoogleFonts.spaceGrotesk(
+                          color: AppColors.textPrimary,
+                          fontSize: isSmallMobile ? 16 : 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '@ ${widget.data.company}',
+                        style: GoogleFonts.inter(
+                          color: AppColors.primary,
+                          fontSize: isSmallMobile ? 13 : 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ] else
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         spacing: AppSpacing.sm,
@@ -233,8 +302,9 @@ class _TimelineItemState extends State<_TimelineItem> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: AppSpacing.sm),
-                      // Date badge
+                    const SizedBox(height: AppSpacing.sm),
+                    // Date badge (desktop only - mobile shows it inline with icon)
+                    if (!isMobile)
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.md,
@@ -253,47 +323,46 @@ class _TimelineItemState extends State<_TimelineItem> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.lg),
-                      // Details
-                      ...widget.data.details.map(
-                        (detail) => Padding(
-                          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 6),
-                                child: Container(
-                                  width: 6,
-                                  height: 6,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary.withOpacity(0.6),
-                                    shape: BoxShape.circle,
-                                  ),
+                    const SizedBox(height: AppSpacing.lg),
+                    // Details
+                    ...widget.data.details.map(
+                      (detail) => Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Container(
+                                width: 6,
+                                height: 6,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.6),
+                                  shape: BoxShape.circle,
                                 ),
                               ),
-                              const SizedBox(width: AppSpacing.md),
-                              Expanded(
-                                child: Text(
-                                  detail,
-                                  style: GoogleFonts.inter(
-                                    color: AppColors.textSecondary,
-                                    fontSize: 15,
-                                    height: 1.6,
-                                  ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: Text(
+                                detail,
+                                style: GoogleFonts.inter(
+                                  color: AppColors.textSecondary,
+                                  fontSize: isMobile ? 13 : 15,
+                                  height: 1.6,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

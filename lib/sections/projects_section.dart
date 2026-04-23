@@ -102,8 +102,8 @@ class _ProjectData {
     required this.techStack,
     required this.icon,
     required this.color,
-    this.liveUrl = null,
-    this.githubUrl = null,
+    this.liveUrl,
+    this.githubUrl,
   });
 }
 
