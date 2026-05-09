@@ -193,7 +193,7 @@ class _ProfileImageState extends State<_ProfileImage> {
                           BlendMode.softLight,
                         ),
                   child: Image.asset(
-                    'assets/profile.jpg',
+                    'assets/profile.png',
                     width: 280,
                     height: 280,
                     fit: BoxFit.cover,
