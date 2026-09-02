@@ -1,4 +1,8 @@
 {
+  "outputDirectory": "build/web",
+  "buildCommand": "",
+  "installCommand": "",
+  "framework": null,
   "cleanUrls": true,
   "rewrites": [
     {
