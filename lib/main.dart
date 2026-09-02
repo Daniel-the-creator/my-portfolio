@@ -21,7 +21,7 @@ class PortfolioApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Daniel Ilesanmi — Portfolio',
+      title: 'Daniel Ilesanmi — Full-Stack Developer & Mobile Engineer',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       darkTheme: AppTheme.darkTheme,
@@ -39,25 +39,26 @@ class PortfolioScreen extends StatefulWidget {
 
 class _PortfolioScreenState extends State<PortfolioScreen> {
   final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<double> _scrollOffsetNotifier = ValueNotifier<double>(0.0);
+
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
-  double _scrollOffset = 0;
-
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      setState(() => _scrollOffset = _scrollController.offset);
+      _scrollOffsetNotifier.value = _scrollController.offset;
     });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _scrollOffsetNotifier.dispose();
     super.dispose();
   }
 
@@ -66,7 +67,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     if (ctx != null) {
       Scrollable.ensureVisible(
         ctx,
-        duration: const Duration(milliseconds: 800),
+        duration: const Duration(milliseconds: 700),
         curve: Curves.easeInOutCubic,
       );
     }
@@ -77,12 +78,13 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     final isMobile = MediaQuery.of(context).size.width < 800;
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(72),
         child: _NavBar(
           isMobile: isMobile,
-          scrollOffset: _scrollOffset,
+          scrollNotifier: _scrollOffsetNotifier,
           onHomeTap: () => _scrollToKey(_homeKey),
           onAboutTap: () => _scrollToKey(_aboutKey),
           onExperienceTap: () => _scrollToKey(_experienceKey),
@@ -101,65 +103,82 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           : null,
       body: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/background.gif',
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                color: AppColors.background,
+          // Background ambient gradient glow spots (static & lightweight)
+          Positioned(
+            top: -150,
+            left: -150,
+            child: IgnorePointer(
+              child: Container(
+                width: 500,
+                height: 500,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.primary.withValues(alpha: 0.12),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-          // Dark overlay for readability
-          Positioned.fill(
-            child: Container(
-              color: AppColors.background.withOpacity(0.75),
-            ),
-          ),
-          // Ambient glow orbs
           Positioned(
-            top: -200,
-            left: -200,
-            child: _GlowOrb(
-              color: AppColors.primary.withOpacity(0.06),
-              size: 500,
-            ),
-          ),
-          Positioned(
-            bottom: 300,
+            top: 600,
             right: -200,
-            child: _GlowOrb(
-              color: AppColors.accent.withOpacity(0.04),
-              size: 600,
+            child: IgnorePointer(
+              child: Container(
+                width: 600,
+                height: 600,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.secondary.withValues(alpha: 0.08),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           Positioned(
-            top: 900,
-            left: 100,
-            child: _GlowOrb(
-              color: AppColors.tertiary.withOpacity(0.03),
-              size: 400,
+            bottom: 400,
+            left: -100,
+            child: IgnorePointer(
+              child: Container(
+                width: 500,
+                height: 500,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.accent.withValues(alpha: 0.06),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-          // Content
+
+          // Main scrollable content
           SingleChildScrollView(
             controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            child: Center(
-              child: Column(
-                children: [
-                  HeroSection(
-                    key: _homeKey,
-                    onContactTap: () => _scrollToKey(_contactKey),
-                    onProjectsTap: () => _scrollToKey(_projectsKey),
-                  ),
-                  AboutSection(key: _aboutKey),
-                  ExperienceSection(key: _experienceKey),
-                  ProjectsSection(key: _projectsKey),
-                  ContactSection(key: _contactKey),
-                ],
-              ),
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                HeroSection(
+                  key: _homeKey,
+                  onContactTap: () => _scrollToKey(_contactKey),
+                  onProjectsTap: () => _scrollToKey(_projectsKey),
+                ),
+                AboutSection(key: _aboutKey),
+                ExperienceSection(key: _experienceKey),
+                ProjectsSection(key: _projectsKey),
+                ContactSection(key: _contactKey),
+              ],
             ),
           ),
         ],
@@ -168,35 +187,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   }
 }
 
-/// Glow orb — ambient background decoration
-class _GlowOrb extends StatelessWidget {
-  final Color color;
-  final double size;
-
-  const _GlowOrb({required this.color, required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [
-            color.withOpacity(color.opacity * 1.5),
-            color.withOpacity(0),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Navigation bar with blur + scroll-aware opacity
+/// Navigation bar — high-performance scroll opacity listener (zero page rebuilds)
 class _NavBar extends StatelessWidget {
   final bool isMobile;
-  final double scrollOffset;
+  final ValueNotifier<double> scrollNotifier;
   final VoidCallback onHomeTap;
   final VoidCallback onAboutTap;
   final VoidCallback onExperienceTap;
@@ -205,7 +199,7 @@ class _NavBar extends StatelessWidget {
 
   const _NavBar({
     required this.isMobile,
-    required this.scrollOffset,
+    required this.scrollNotifier,
     required this.onHomeTap,
     required this.onAboutTap,
     required this.onExperienceTap,
@@ -215,82 +209,115 @@ class _NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgOpacity = (scrollOffset / 200).clamp(0.0, 0.85);
+    return ValueListenableBuilder<double>(
+      valueListenable: scrollNotifier,
+      builder: (context, offset, child) {
+        final isScrolled = offset > 20;
 
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxxl,
-            vertical: AppSpacing.lg,
-          ),
-          decoration: BoxDecoration(
-            color: AppColors.background.withOpacity(bgOpacity),
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.border.withOpacity(
-                  scrollOffset > 50 ? 0.3 : 0,
+        return ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: isScrolled ? 16 : 0, sigmaY: isScrolled ? 16 : 0),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxxl,
+                vertical: AppSpacing.md,
+              ),
+              decoration: BoxDecoration(
+                color: isScrolled
+                    ? AppColors.background.withValues(alpha: 0.82)
+                    : Colors.transparent,
+                border: Border(
+                  bottom: BorderSide(
+                    color: isScrolled
+                        ? AppColors.border.withValues(alpha: 0.6)
+                        : Colors.transparent,
+                  ),
+                ),
+              ),
+              child: SafeArea(
+                bottom: false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Brand Logo
+                    GestureDetector(
+                      onTap: onHomeTap,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                gradient: AppColors.primaryGradient,
+                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                              ),
+                              child: Text(
+                                'D',
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            GradientText(
+                              'ilesanmi.',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: -0.5,
+                              ),
+                              gradient: AppColors.primaryGradient,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Desktop Nav Items
+                    if (!isMobile)
+                      Row(
+                        children: [
+                          _NavLink(text: 'Home', onTap: onHomeTap),
+                          const SizedBox(width: AppSpacing.lg),
+                          _NavLink(text: 'About', onTap: onAboutTap),
+                          const SizedBox(width: AppSpacing.lg),
+                          _NavLink(text: 'Experience', onTap: onExperienceTap),
+                          const SizedBox(width: AppSpacing.lg),
+                          _NavLink(text: 'Projects', onTap: onProjectsTap),
+                          const SizedBox(width: AppSpacing.lg),
+                          _NavLink(text: 'Contact', onTap: onContactTap),
+                          const SizedBox(width: AppSpacing.xl),
+                          const _GitHubButton(),
+                        ],
+                      )
+                    else
+                      Builder(
+                        builder: (ctx) => IconButton(
+                          icon: const Icon(
+                            Icons.menu_rounded,
+                            color: AppColors.primaryLight,
+                            size: 26,
+                          ),
+                          onPressed: () => Scaffold.of(ctx).openDrawer(),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
           ),
-          child: SafeArea(
-            bottom: false,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Logo
-                GestureDetector(
-                  onTap: onHomeTap,
-                  child: GradientText(
-                    'Diles.',
-                    style: GoogleFonts.spaceGrotesk(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
-                    ),
-                    gradient: AppColors.primaryGradient,
-                  ),
-                ),
-                if (!isMobile)
-                  Row(
-                    children: [
-                      _NavLink(text: 'Home', onTap: onHomeTap),
-                      const SizedBox(width: AppSpacing.xl),
-                      _NavLink(text: 'About', onTap: onAboutTap),
-                      const SizedBox(width: AppSpacing.xl),
-                      _NavLink(text: 'Experience', onTap: onExperienceTap),
-                      const SizedBox(width: AppSpacing.xl),
-                      _NavLink(text: 'Projects', onTap: onProjectsTap),
-                      const SizedBox(width: AppSpacing.xl),
-                      _NavLink(text: 'Contact', onTap: onContactTap),
-                      const SizedBox(width: AppSpacing.xxl),
-                      _GitHubButton(),
-                    ],
-                  )
-                else
-                  Builder(
-                    builder: (ctx) => IconButton(
-                      icon: const Icon(
-                        Icons.menu_rounded,
-                        color: AppColors.primary,
-                        size: 28,
-                      ),
-                      onPressed: () => Scaffold.of(ctx).openDrawer(),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
-/// Navigation link with hover underline
+/// Navigation link with smooth hover styling
 class _NavLink extends StatefulWidget {
   final String text;
   final VoidCallback onTap;
@@ -312,38 +339,33 @@ class _NavLinkState extends State<_NavLink> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: widget.onTap,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: GoogleFonts.inter(
-                color:
-                    _isHovering ? AppColors.primary : AppColors.textSecondary,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-              child: Text(widget.text),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: _isHovering
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
+          child: Text(
+            widget.text,
+            style: GoogleFonts.inter(
+              color: _isHovering ? AppColors.textPrimary : AppColors.textSecondary,
+              fontSize: 14,
+              fontWeight: _isHovering ? FontWeight.w600 : FontWeight.w500,
             ),
-            const SizedBox(height: 4),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 2,
-              width: _isHovering ? 20 : 0,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(1),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-/// GitHub button in nav
+/// GitHub CTA in Navigation
 class _GitHubButton extends StatefulWidget {
+  const _GitHubButton();
+
   @override
   State<_GitHubButton> createState() => _GitHubButtonState();
 }
@@ -367,18 +389,18 @@ class _GitHubButtonState extends State<_GitHubButton> {
           } catch (_) {}
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
-            vertical: AppSpacing.sm,
+            vertical: 8,
           ),
           decoration: BoxDecoration(
             color: _isHovering
-                ? AppColors.primary.withOpacity(0.12)
-                : Colors.transparent,
+                ? AppColors.primary.withValues(alpha: 0.15)
+                : AppColors.surfaceVariant,
             borderRadius: BorderRadius.circular(AppRadius.sm),
             border: Border.all(
-              color: _isHovering ? AppColors.primary : AppColors.border,
+              color: _isHovering ? AppColors.primaryLight : AppColors.border,
             ),
           ),
           child: Row(
@@ -387,8 +409,7 @@ class _GitHubButtonState extends State<_GitHubButton> {
               Icon(
                 Icons.code_rounded,
                 size: 16,
-                color:
-                    _isHovering ? AppColors.primary : AppColors.textSecondary,
+                color: _isHovering ? AppColors.primaryLight : AppColors.textSecondary,
               ),
               const SizedBox(width: AppSpacing.sm),
               Text(
@@ -396,8 +417,7 @@ class _GitHubButtonState extends State<_GitHubButton> {
                 style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color:
-                      _isHovering ? AppColors.primary : AppColors.textSecondary,
+                  color: _isHovering ? AppColors.textPrimary : AppColors.textSecondary,
                 ),
               ),
             ],
@@ -408,7 +428,7 @@ class _GitHubButtonState extends State<_GitHubButton> {
   }
 }
 
-/// Mobile drawer
+/// Mobile Drawer
 class _MobileDrawer extends StatelessWidget {
   final VoidCallback onHomeTap;
   final VoidCallback onAboutTap;
@@ -427,26 +447,45 @@ class _MobileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.xxl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Logo
-              GradientText(
-                'Diles.',
-                style: GoogleFonts.spaceGrotesk(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                ),
-                gradient: AppColors.primaryGradient,
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.primaryGradient,
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                    ),
+                    child: Text(
+                      'D',
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  GradientText(
+                    'ilesanmi.',
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    gradient: AppColors.primaryGradient,
+                  ),
+                ],
               ),
               const SizedBox(height: AppSpacing.xxxl),
               Container(
                 height: 1,
-                color: AppColors.border.withOpacity(0.3),
+                color: AppColors.border,
               ),
               const SizedBox(height: AppSpacing.xxl),
               _DrawerItem(
@@ -490,10 +529,9 @@ class _MobileDrawer extends StatelessWidget {
                 },
               ),
               const Spacer(),
-              // GitHub CTA at bottom
               SecondaryButton(
-                text: 'GitHub',
-                icon: Icons.code_rounded,
+                text: 'Visit GitHub Profile',
+                icon: Icons.open_in_new_rounded,
                 onPressed: () async {
                   try {
                     await launchUrl(
@@ -537,15 +575,15 @@ class _DrawerItemState extends State<_DrawerItem> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.lg,
+            vertical: AppSpacing.md,
             horizontal: AppSpacing.lg,
           ),
           margin: const EdgeInsets.only(bottom: AppSpacing.sm),
           decoration: BoxDecoration(
             color: _isHovering
-                ? AppColors.primary.withOpacity(0.08)
+                ? AppColors.primary.withValues(alpha: 0.1)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
@@ -553,9 +591,9 @@ class _DrawerItemState extends State<_DrawerItem> {
             children: [
               Text(
                 widget.number,
-                style: GoogleFonts.spaceGrotesk(
-                  color: AppColors.primary,
-                  fontSize: 14,
+                style: GoogleFonts.sourceCodePro(
+                  color: AppColors.primaryLight,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -563,10 +601,9 @@ class _DrawerItemState extends State<_DrawerItem> {
               Text(
                 widget.title,
                 style: GoogleFonts.spaceGrotesk(
-                  color:
-                      _isHovering ? AppColors.primary : AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  color: _isHovering ? AppColors.textPrimary : AppColors.textSecondary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

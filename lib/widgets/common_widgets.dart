@@ -1,9 +1,8 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 
-/// Gradient text widget
+/// Gradient text widget with performance optimization
 class GradientText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -30,65 +29,106 @@ class GradientText extends StatelessWidget {
   }
 }
 
-/// Glass card with frosted effect
-class GlassCard extends StatelessWidget {
+/// Glass card with sleek 1px border and optional hover highlight
+class GlassCard extends StatefulWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final double borderRadius;
   final Color? borderColor;
-  final double blurSigma;
+  final Color? backgroundColor;
+  final VoidCallback? onTap;
+  final bool enableHover;
 
   const GlassCard({
     super.key,
     required this.child,
     this.padding,
-    this.borderRadius = AppRadius.lg,
+    this.borderRadius = AppRadius.xl,
     this.borderColor,
-    this.blurSigma = 20,
+    this.backgroundColor,
+    this.onTap,
+    this.enableHover = false,
   });
 
   @override
+  State<GlassCard> createState() => _GlassCardState();
+}
+
+class _GlassCardState extends State<GlassCard> {
+  bool _isHovering = false;
+
+  @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-        child: Container(
-          padding: padding ?? const EdgeInsets.all(AppSpacing.xxl),
-          decoration: BoxDecoration(
-            color: AppColors.surface.withOpacity(0.6),
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(
-              color: borderColor ?? AppColors.border.withOpacity(0.5),
-              width: 1,
-            ),
-          ),
-          child: child,
-        ),
+    final border = widget.borderColor ??
+        (_isHovering && widget.enableHover
+            ? AppColors.primary.withValues(alpha: 0.5)
+            : AppColors.border);
+
+    final bg = widget.backgroundColor ??
+        (_isHovering && widget.enableHover
+            ? AppColors.surfaceVariant
+            : AppColors.surface);
+
+    final content = AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      padding: widget.padding ?? const EdgeInsets.all(AppSpacing.xxl),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        border: Border.all(color: border, width: 1),
+        boxShadow: _isHovering && widget.enableHover
+            ? [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ]
+            : null,
       ),
+      child: widget.child,
+    );
+
+    if (!widget.enableHover && widget.onTap == null) {
+      return content;
+    }
+
+    return MouseRegion(
+      onEnter: (_) {
+        if (widget.enableHover) setState(() => _isHovering = true);
+      },
+      onExit: (_) {
+        if (widget.enableHover) setState(() => _isHovering = false);
+      },
+      cursor: widget.onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: widget.onTap != null
+          ? GestureDetector(onTap: widget.onTap, child: content)
+          : content,
     );
   }
 }
 
-/// Primary filled gradient button
+/// Primary filled gradient button with smooth hover glow
 class PrimaryButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
   final IconData? icon;
+  final Gradient? gradient;
 
   const PrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.icon,
+    this.gradient,
   });
 
   @override
   State<PrimaryButton> createState() => _PrimaryButtonState();
 }
 
-class _PrimaryButtonState extends State<PrimaryButton>
-    with SingleTickerProviderStateMixin {
+class _PrimaryButtonState extends State<PrimaryButton> {
   bool _isHovering = false;
   bool _isPressed = false;
 
@@ -106,42 +146,53 @@ class _PrimaryButtonState extends State<PrimaryButton>
         },
         onTapCancel: () => setState(() => _isPressed = false),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 180),
           curve: Curves.easeOut,
-          transform: Matrix4.identity()
-            ..scale(_isPressed ? 0.95 : (_isHovering ? 1.03 : 1.0)),
+          transform: Matrix4.diagonal3Values(
+            _isPressed ? 0.96 : (_isHovering ? 1.02 : 1.0),
+            _isPressed ? 0.96 : (_isHovering ? 1.02 : 1.0),
+            1.0,
+          ),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.lg,
           ),
           decoration: BoxDecoration(
-            gradient: AppColors.primaryGradient,
+            gradient: widget.gradient ?? AppColors.primaryGradient,
             borderRadius: BorderRadius.circular(AppRadius.md),
             boxShadow: _isHovering
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.4),
+                      color: AppColors.primary.withValues(alpha: 0.4),
                       blurRadius: 20,
                       offset: const Offset(0, 6),
                     ),
                   ]
-                : [],
+                : [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (widget.icon != null) ...[
-                Icon(widget.icon, color: Colors.white, size: 18),
-                const SizedBox(width: AppSpacing.sm),
-              ],
               Text(
                 widget.text,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
+                  letterSpacing: 0.2,
                 ),
               ),
+              if (widget.icon != null) ...[
+                const SizedBox(width: AppSpacing.sm),
+                Icon(widget.icon, color: Colors.white, size: 18),
+              ],
             ],
           ),
         ),
@@ -150,7 +201,7 @@ class _PrimaryButtonState extends State<PrimaryButton>
   }
 }
 
-/// Outlined / ghost button
+/// Secondary Outlined Glass Button
 class SecondaryButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
@@ -185,33 +236,35 @@ class _SecondaryButtonState extends State<SecondaryButton> {
         },
         onTapCancel: () => setState(() => _isPressed = false),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 180),
           curve: Curves.easeOut,
-          transform: Matrix4.identity()
-            ..scale(_isPressed ? 0.95 : (_isHovering ? 1.03 : 1.0)),
+          transform: Matrix4.diagonal3Values(
+            _isPressed ? 0.96 : (_isHovering ? 1.02 : 1.0),
+            _isPressed ? 0.96 : (_isHovering ? 1.02 : 1.0),
+            1.0,
+          ),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.lg,
           ),
           decoration: BoxDecoration(
             color: _isHovering
-                ? AppColors.primary.withOpacity(0.1)
-                : Colors.transparent,
+                ? AppColors.primary.withValues(alpha: 0.12)
+                : AppColors.surfaceVariant.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(AppRadius.md),
             border: Border.all(
-              color: _isHovering
-                  ? AppColors.primary
-                  : AppColors.border,
-              width: 1.5,
+              color: _isHovering ? AppColors.primaryLight : AppColors.border,
+              width: 1.2,
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (widget.icon != null) ...[
                 Icon(
                   widget.icon,
-                  color: _isHovering ? AppColors.primary : AppColors.textSecondary,
+                  color: _isHovering ? AppColors.primaryLight : AppColors.textSecondary,
                   size: 18,
                 ),
                 const SizedBox(width: AppSpacing.sm),
@@ -219,7 +272,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
               Text(
                 widget.text,
                 style: GoogleFonts.inter(
-                  color: _isHovering ? AppColors.primary : AppColors.textSecondary,
+                  color: _isHovering ? AppColors.textPrimary : AppColors.textSecondary,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -232,60 +285,103 @@ class _SecondaryButtonState extends State<SecondaryButton> {
   }
 }
 
-/// Section title with number + decorative line
+/// Section title with number badge + title + subtle gradient line
 class SectionTitle extends StatelessWidget {
   final String number;
   final String title;
+  final String? subtitle;
+  final bool isOnLight;
 
   const SectionTitle({
     super.key,
     required this.number,
     required this.title,
+    this.subtitle,
+    this.isOnLight = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GradientText(
-          number,
-          style: GoogleFonts.spaceGrotesk(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
-          gradient: AppColors.primaryGradient,
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-        const SizedBox(width: AppSpacing.xl),
-        Expanded(
-          child: Container(
-            height: 1,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.border,
-                  AppColors.border.withOpacity(0.0),
-                ],
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppRadius.full),
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Text(
+                number,
+                style: GoogleFonts.sourceCodePro(
+                  color: AppColors.primaryLight,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                ),
               ),
             ),
-          ),
+            const SizedBox(width: AppSpacing.md),
+            Text(
+              title,
+              style: GoogleFonts.spaceGrotesk(
+                color: AppColors.textPrimary,
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.5,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xl),
+            Expanded(
+              child: Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.border,
+                      AppColors.border.withValues(alpha: 0.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        if (subtitle != null) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            subtitle!,
+            style: GoogleFonts.inter(
+              color: AppColors.textSecondary,
+              fontSize: 15,
+            ),
+          ),
+        ],
       ],
     );
   }
 }
 
-/// Tech badge chip
+/// Tech badge chip with modern pill styling
 class TechBadge extends StatefulWidget {
   final String label;
   final IconData? icon;
+  final bool isOnLight;
 
-  const TechBadge({super.key, required this.label, this.icon});
+  const TechBadge({
+    super.key,
+    required this.label,
+    this.icon,
+    this.isOnLight = false,
+  });
 
   @override
   State<TechBadge> createState() => _TechBadgeState();
@@ -300,20 +396,20 @@ class _TechBadgeState extends State<TechBadge> {
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
           color: _isHovering
-              ? AppColors.primary.withOpacity(0.15)
-              : AppColors.surfaceVariant.withOpacity(0.6),
+              ? AppColors.primary.withValues(alpha: 0.15)
+              : AppColors.surfaceVariant.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(AppRadius.full),
           border: Border.all(
             color: _isHovering
-                ? AppColors.primary.withOpacity(0.5)
-                : AppColors.border.withOpacity(0.4),
+                ? AppColors.primary.withValues(alpha: 0.6)
+                : AppColors.border,
           ),
         ),
         child: Row(
@@ -323,14 +419,14 @@ class _TechBadgeState extends State<TechBadge> {
               Icon(
                 widget.icon,
                 size: 14,
-                color: _isHovering ? AppColors.primary : AppColors.accent,
+                color: _isHovering ? AppColors.accentLight : AppColors.primaryLight,
               ),
               const SizedBox(width: AppSpacing.sm),
             ],
             Text(
               widget.label,
               style: GoogleFonts.inter(
-                color: _isHovering ? AppColors.primary : AppColors.textSecondary,
+                color: _isHovering ? AppColors.textPrimary : AppColors.textSecondary,
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),

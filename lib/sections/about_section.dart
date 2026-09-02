@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common_widgets.dart';
-import '../widgets/scroll_reveal.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -10,213 +9,366 @@ class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final isMobile = width < 800;
+    final isMobile = width < 850;
 
     return Container(
-      constraints: const BoxConstraints(maxWidth: 1100),
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxxl,
-        vertical: AppSpacing.massive,
+        vertical: AppSpacing.huge,
       ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1160),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SectionTitle(
+                number: '01',
+                title: 'About Me',
+                subtitle:
+                    'Passionate software developer dedicated to crafting intuitive digital solutions',
+              ),
+              const SizedBox(height: AppSpacing.xxxl),
+
+              // Bento Grid Layout
+              if (isMobile)
+                _buildMobileBento(context)
+              else
+                _buildDesktopBento(context),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktopBento(BuildContext context) {
+    return Column(
+      children: [
+        // Row 1: Bio Card (Expanded) + Quick Stats (Flex 5)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 7,
+              child: _buildBioCard(),
+            ),
+            const SizedBox(width: AppSpacing.xl),
+            Expanded(
+              flex: 5,
+              child: _buildStatsCard(),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.xl),
+
+        // Row 2: Skills Categories (Flex 7) + Education & Leadership (Flex 5)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 7,
+              child: _buildSkillsCard(),
+            ),
+            const SizedBox(width: AppSpacing.xl),
+            Expanded(
+              flex: 5,
+              child: _buildEducationCard(),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileBento(BuildContext context) {
+    return Column(
+      children: [
+        _buildBioCard(),
+        const SizedBox(height: AppSpacing.lg),
+        _buildStatsCard(),
+        const SizedBox(height: AppSpacing.lg),
+        _buildSkillsCard(),
+        const SizedBox(height: AppSpacing.lg),
+        _buildEducationCard(),
+      ],
+    );
+  }
+
+  Widget _buildBioCard() {
+    return GlassCard(
+      enableHover: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ScrollReveal(
-            key: ValueKey('about_title'),
-            child: SectionTitle(number: '01.', title: 'About Me'),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                child: const Icon(
+                  Icons.person_pin_rounded,
+                  color: AppColors.primaryLight,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Text(
+                'Background & Discipline',
+                style: GoogleFonts.spaceGrotesk(
+                  color: AppColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: AppSpacing.xxxl),
-          isMobile ? _buildMobileLayout(context) : _buildDesktopLayout(context),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            'Creative and goal-driven full-stack developer with a deep passion for building functional, responsive, and user-friendly mobile and web applications.',
+            style: GoogleFonts.inter(
+              color: AppColors.textPrimary,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              height: 1.6,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'Studied Software Engineering at Dominion University, Ibadan, and actively contributing as Head of Frontend Developers at Jenious Agency. I specialize in turning complex ideas into clean, maintainable, and high-performance cross-platform software.',
+            style: GoogleFonts.inter(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+              height: 1.7,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildDesktopLayout(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 3,
-          child: _buildTextContent(context),
-        ),
-        const SizedBox(width: AppSpacing.xxxl),
-        const Expanded(
-          flex: 2,
-          child: ScrollReveal(
-            key: ValueKey('about_photo'),
-            offset: Offset(40, 0),
-            child: _ProfileImage(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMobileLayout(BuildContext context) {
-    return Column(
-      children: [
-        const ScrollReveal(
-          key: ValueKey('about_photo_mobile'),
-          child: _ProfileImage(),
-        ),
-        const SizedBox(height: AppSpacing.xxl),
-        _buildTextContent(context),
-      ],
-    );
-  }
-
-  Widget _buildTextContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ScrollReveal(
-          key: const ValueKey('about_p1'),
-          index: 1,
-          child: Text(
-            "Creative and goal-driven full-stack developer with a strong passion for "
-            "building functional, responsive, and user-friendly applications. Currently "
-            "studying Software Engineering at Dominion University, Ibadan, and actively "
-            "seeking remote/freelance opportunities where I can contribute to real-world "
-            "projects while expanding my mobile and web development skills.",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        ScrollReveal(
-          key: const ValueKey('about_p2'),
-          index: 2,
-          child: Text(
-            "Experienced in Flutter, UI/UX design, and passionate about continuous "
-            "learning, collaboration, and delivering value through technology. I'm also "
-            "an active member of NACOS, UI/UX workshops, and tech communities.",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xxl),
-        ScrollReveal(
-          key: const ValueKey('about_tech_label'),
-          index: 3,
-          child: Text(
-            "Technologies I work with",
-            style: GoogleFonts.spaceGrotesk(
-              color: AppColors.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.lg),
-        const ScrollReveal(
-          key: ValueKey('about_tech_badges'),
-          index: 4,
-          child: Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
+  Widget _buildStatsCard() {
+    return GlassCard(
+      enableHover: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              TechBadge(label: 'Dart', icon: Icons.code_rounded),
-              TechBadge(label: 'Flutter', icon: Icons.phone_android_rounded),
-              TechBadge(label: 'Firebase', icon: Icons.cloud_rounded),
-              TechBadge(label: 'HTML / CSS', icon: Icons.web_rounded),
-              TechBadge(label: 'JavaScript', icon: Icons.javascript_rounded),
-              TechBadge(label: 'Git & GitHub', icon: Icons.merge_rounded),
-              TechBadge(label: 'Figma', icon: Icons.design_services_rounded),
-              TechBadge(label: 'REST APIs', icon: Icons.api_rounded),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ProfileImage extends StatefulWidget {
-  const _ProfileImage();
-
-  @override
-  State<_ProfileImage> createState() => _ProfileImageState();
-}
-
-class _ProfileImageState extends State<_ProfileImage> {
-  bool _isHovering = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovering = true),
-      onExit: (_) => setState(() => _isHovering = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeOutCubic,
-        transform: Matrix4.identity()..translate(0.0, _isHovering ? -8.0 : 0.0),
-        child: Stack(
-          children: [
-            // Border decoration
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeOutCubic,
-              top: _isHovering ? 16 : 12,
-              left: _isHovering ? 16 : 12,
-              child: Container(
-                width: 280,
-                height: 280,
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppRadius.xl),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.4),
-                    width: 2,
-                  ),
+                  color: AppColors.accent.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                child: const Icon(
+                  Icons.auto_graph_rounded,
+                  color: AppColors.accentLight,
+                  size: 20,
                 ),
               ),
-            ),
-            // Photo
-            ClipRRect(
-              borderRadius: BorderRadius.circular(AppRadius.xl),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 400),
-                decoration: BoxDecoration(
-                  boxShadow: _isHovering
-                      ? [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.2),
-                            blurRadius: 30,
-                          ),
-                        ]
-                      : [],
+              const SizedBox(width: AppSpacing.md),
+              Text(
+                'Track Record',
+                style: GoogleFonts.spaceGrotesk(
+                  color: AppColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
                 ),
-                child: ColorFiltered(
-                  colorFilter: _isHovering
-                      ? const ColorFilter.mode(
-                          Colors.transparent, BlendMode.multiply)
-                      : ColorFilter.mode(
-                          AppColors.primary.withOpacity(0.15),
-                          BlendMode.softLight,
-                        ),
-                  child: Image.asset(
-                    'assets/profile.png',
-                    width: 280,
-                    height: 280,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      width: 280,
-                      height: 280,
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceVariant,
-                        borderRadius: BorderRadius.circular(AppRadius.xl),
-                      ),
-                      child: const Icon(
-                        Icons.person_rounded,
-                        size: 80,
-                        color: AppColors.textMuted,
-                      ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _StatItem(value: '3+', label: 'Shipped Apps'),
+              _StatItem(value: '2+', label: 'Years Coding'),
+              _StatItem(value: '100%', label: 'Commitment'),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceVariant,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.verified_rounded,
+                    color: Color(0xFF10B981), size: 18),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    'Always eager to learn new tools and solve real-world problems.',
+                    style: GoogleFonts.inter(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildSkillsCard() {
+    return GlassCard(
+      enableHover: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: AppColors.secondary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                child: const Icon(
+                  Icons.terminal_rounded,
+                  color: AppColors.secondary,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Text(
+                'Technical Toolbelt',
+                style: GoogleFonts.spaceGrotesk(
+                  color: AppColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          const Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              TechBadge(label: 'Flutter', icon: Icons.phone_android_rounded),
+              TechBadge(label: 'Dart', icon: Icons.code_rounded),
+              TechBadge(label: 'Firebase', icon: Icons.cloud_rounded),
+              TechBadge(label: 'JavaScript', icon: Icons.javascript_rounded),
+              TechBadge(label: 'HTML5 & CSS3', icon: Icons.web_rounded),
+              TechBadge(label: 'REST APIs', icon: Icons.api_rounded),
+              TechBadge(label: 'Git & GitHub', icon: Icons.merge_rounded),
+              TechBadge(
+                  label: 'Figma UI/UX', icon: Icons.design_services_rounded),
+              TechBadge(
+                  label: 'Responsive Design', icon: Icons.devices_rounded),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEducationCard() {
+    return GlassCard(
+      enableHover: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                child: const Icon(
+                  Icons.school_rounded,
+                  color: AppColors.primaryLight,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Text(
+                'Education & Activities',
+                style: GoogleFonts.spaceGrotesk(
+                  color: AppColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            'B.Sc. Software Engineering',
+            style: GoogleFonts.spaceGrotesk(
+              color: AppColors.textPrimary,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Dominion University, Ibadan (2022 – Present)',
+            style: GoogleFonts.inter(
+              color: AppColors.primaryLight,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            '• Active member of NACOS\n• Participant in UI/UX and Dev workshops\n• Regular coding challenges & tech meetups',
+            style: GoogleFonts.inter(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+              height: 1.6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  final String value;
+  final String label;
+
+  const _StatItem({required this.value, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GradientText(
+          value,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
+          ),
+          gradient: AppColors.heroGradient,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: GoogleFonts.inter(
+            color: AppColors.textMuted,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

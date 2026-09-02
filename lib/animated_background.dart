@@ -63,11 +63,11 @@ class ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint1 = Paint()
-      ..color = const Color(0xFF14B8A6).withOpacity(0.8) // Teal
+      ..color = const Color(0xFF14B8A6).withValues(alpha: 0.8) // Teal
       ..style = PaintingStyle.fill;
       
     final paint2 = Paint()
-      ..color = const Color(0xFF3B82F6).withOpacity(0.8) // Blue
+      ..color = const Color(0xFF3B82F6).withValues(alpha: 0.8) // Blue
       ..style = PaintingStyle.fill;
 
     for (int i = 0; i < particles.length; i++) {

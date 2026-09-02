@@ -2,170 +2,186 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common_widgets.dart';
-import '../widgets/scroll_reveal.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
 
-  static final List<_ExperienceData> _experiences = [
-    const _ExperienceData(
-      title: 'Head of Frontend Developers',
+  static const List<_ExperienceData> _experiences = [
+    _ExperienceData(
+      role: 'Head of Frontend Developers',
       company: 'Jenious Agency',
-      date: 'Present',
+      period: 'Present',
+      isCurrent: true,
       icon: Icons.rocket_launch_rounded,
-      details: [
-        'Leading the frontend development team to build engaging user interfaces.',
-        'Collaborating with designers and backend engineers to deliver high-quality web applications.',
+      color: AppColors.primaryLight,
+      highlights: [
+        'Lead frontend engineering and collaborate closely with product design to ship responsive, pixel-perfect user interfaces.',
+        'Architect frontend components and establish clean code standards for rapid client project delivery.',
       ],
     ),
-    const _ExperienceData(
-      title: 'Full-Stack Developer',
-      company: 'Project-Based',
-      date: '2023 – Present',
+    _ExperienceData(
+      role: 'Full-Stack Developer',
+      company: 'Project-Based & Freelance',
+      period: '2023 – Present',
+      isCurrent: false,
       icon: Icons.code_rounded,
-      details: [
-        'Designed and built cross-platform mobile apps using Flutter for student use cases, including an Exeat Management system.',
-        'Integrated Firebase for authentication and real-time database functionality.',
-        'Focused on creating an intuitive user experience and responsive UI.',
+      color: AppColors.accentLight,
+      highlights: [
+        'Engineered cross-platform mobile solutions with Flutter including student permission & management portals.',
+        'Integrated Firebase Authentication, Cloud Firestore real-time databases, and REST APIs.',
+        'Prioritized frictionless mobile user experience, accessible layouts, and rapid startup performance.',
       ],
     ),
-    const _ExperienceData(
-      title: 'Intern – IT Support & Digital Solutions',
+    _ExperienceData(
+      role: 'IT Support & Digital Solutions Intern',
       company: 'CYCONET Nigeria (SIWES)',
-      date: 'Aug 2025 – Oct 2025',
+      period: 'Aug 2025 – Oct 2025',
+      isCurrent: false,
       icon: Icons.business_center_rounded,
-      details: [
-        'Assisted in diagnosing and resolving technical issues.',
-        'Supported the team in building and scaling digital applications.',
+      color: AppColors.secondary,
+      highlights: [
+        'Assisted IT infrastructure troubleshooting, hardware diagnostics, and digital system maintenance.',
+        'Collaborated with senior engineers on internal web applications and digital automation tooling.',
       ],
     ),
-    const _ExperienceData(
-      title: 'B.Sc. Software Engineering',
+    _ExperienceData(
+      role: 'B.Sc. Software Engineering',
       company: 'Dominion University, Ibadan',
-      date: '2022 – Present',
+      period: '2022 – 2026',
+      isCurrent: false,
       icon: Icons.school_rounded,
-      details: [
-        'Relevant Coursework focusing on software architecture, algorithms, and applications.',
-        'Active in coding competitions, UI/UX workshops, and tech communities.',
-        'Member of NACOS.',
+      color: Color(0xFF10B981),
+      highlights: [
+        'Specializing in algorithms, data structures, software architecture, and distributed systems.',
+        'Active leader in developer circles, NACOS workshops, and peer programming sessions.',
       ],
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 800;
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 850;
 
     return Container(
-      constraints: const BoxConstraints(maxWidth: 1100),
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxxl,
-        vertical: AppSpacing.massive,
+        vertical: AppSpacing.huge,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const ScrollReveal(
-            key: ValueKey('exp_title'),
-            child: SectionTitle(number: '02.', title: 'Experience & Education'),
-          ),
-          const SizedBox(height: AppSpacing.xxxl),
-          // Timeline
-          ...List.generate(_experiences.length, (index) {
-            final exp = _experiences[index];
-            final isLast = index == _experiences.length - 1;
-            return ScrollReveal(
-              key: ValueKey('exp_item_$index'),
-              index: index,
-              child: _TimelineItem(
-                data: exp,
-                isLast: isLast,
-                index: index,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1160),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SectionTitle(
+                number: '02',
+                title: 'Experience & Journey',
+                subtitle:
+                    'My professional career milestones and engineering journey',
               ),
-            );
-          }),
-        ],
+              const SizedBox(height: AppSpacing.xxxl),
+              ...List.generate(_experiences.length, (index) {
+                final exp = _experiences[index];
+                final isLast = index == _experiences.length - 1;
+                return _TimelineTile(
+                  data: exp,
+                  isLast: isLast,
+                  isMobile: isMobile,
+                );
+              }),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 class _ExperienceData {
-  final String title;
+  final String role;
   final String company;
-  final String date;
+  final String period;
+  final bool isCurrent;
   final IconData icon;
-  final List<String> details;
+  final Color color;
+  final List<String> highlights;
 
   const _ExperienceData({
-    required this.title,
+    required this.role,
     required this.company,
-    required this.date,
+    required this.period,
+    required this.isCurrent,
     required this.icon,
-    required this.details,
+    required this.color,
+    required this.highlights,
   });
 }
 
-class _TimelineItem extends StatefulWidget {
+class _TimelineTile extends StatefulWidget {
   final _ExperienceData data;
   final bool isLast;
-  final int index;
+  final bool isMobile;
 
-  const _TimelineItem({
+  const _TimelineTile({
     required this.data,
     required this.isLast,
-    required this.index,
+    required this.isMobile,
   });
 
   @override
-  State<_TimelineItem> createState() => _TimelineItemState();
+  State<_TimelineTile> createState() => _TimelineTileState();
 }
 
-class _TimelineItemState extends State<_TimelineItem> {
+class _TimelineTileState extends State<_TimelineTile> {
   bool _isHovering = false;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 800;
-    final isSmallMobile = screenWidth < 400;
-
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Timeline rail
-          if (!isMobile) ...[
+          // Left Timeline Indicator (on desktop/tablet)
+          if (!widget.isMobile) ...[
             SizedBox(
-              width: 60,
+              width: 48,
               child: Column(
                 children: [
-                  // Dot
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: 40,
-                    height: 40,
+                    duration: const Duration(milliseconds: 200),
+                    width: 36,
+                    height: 36,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _isHovering
-                          ? AppColors.primary.withOpacity(0.2)
+                          ? widget.data.color.withValues(alpha: 0.2)
                           : AppColors.surfaceVariant,
                       border: Border.all(
                         color:
-                            _isHovering ? AppColors.primary : AppColors.border,
-                        width: 2,
+                            _isHovering ? widget.data.color : AppColors.border,
+                        width: 1.5,
                       ),
+                      boxShadow: _isHovering
+                          ? [
+                              BoxShadow(
+                                color: widget.data.color.withValues(alpha: 0.4),
+                                blurRadius: 16,
+                              ),
+                            ]
+                          : null,
                     ),
                     child: Icon(
                       widget.data.icon,
-                      size: 18,
-                      color:
-                          _isHovering ? AppColors.primary : AppColors.textMuted,
+                      size: 16,
+                      color: _isHovering
+                          ? widget.data.color
+                          : AppColors.textSecondary,
                     ),
                   ),
-                  // Line — use a fixed large height instead of Expanded
                   if (!widget.isLast)
                     Container(
                       width: 2,
@@ -175,8 +191,8 @@ class _TimelineItemState extends State<_TimelineItem> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AppColors.border,
-                            AppColors.border.withOpacity(0.2),
+                            widget.data.color.withValues(alpha: 0.4),
+                            AppColors.border.withValues(alpha: 0.3),
                           ],
                         ),
                       ),
@@ -186,147 +202,117 @@ class _TimelineItemState extends State<_TimelineItem> {
             ),
             const SizedBox(width: AppSpacing.lg),
           ],
-          // Card content
+
+          // Right Experience Card
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
-                bottom: widget.isLast
-                    ? 0
-                    : isMobile
-                        ? AppSpacing.lg
-                        : AppSpacing.xxl,
+                bottom: widget.isLast ? 0 : AppSpacing.xl,
               ),
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                padding: EdgeInsets.all(
-                  isMobile ? AppSpacing.lg : AppSpacing.xl,
-                ),
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 decoration: BoxDecoration(
                   color: _isHovering
-                      ? AppColors.surfaceVariant.withOpacity(0.6)
-                      : AppColors.surfaceVariant.withOpacity(0.3),
+                      ? AppColors.surfaceVariant
+                      : AppColors.surface,
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                   border: Border.all(
                     color: _isHovering
-                        ? AppColors.primary.withOpacity(0.3)
-                        : AppColors.border.withOpacity(0.3),
+                        ? widget.data.color.withValues(alpha: 0.5)
+                        : AppColors.border,
+                    width: 1,
                   ),
+                  boxShadow: _isHovering
+                      ? [
+                          BoxShadow(
+                            color: widget.data.color.withValues(alpha: 0.08),
+                            blurRadius: 20,
+                            offset: const Offset(0, 6),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Mobile icon indicator
-                    if (isMobile) ...[
-                      Row(
-                        children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            padding: const EdgeInsets.all(AppSpacing.sm),
+                    // Top Row: Role + Period Badge
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (widget.isMobile) ...[
+                          Container(
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: _isHovering
-                                  ? AppColors.primary.withOpacity(0.15)
-                                  : AppColors.primary.withOpacity(0.08),
+                              color: widget.data.color.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(AppRadius.sm),
                             ),
-                            child: Icon(
-                              widget.data.icon,
-                              size: 16,
-                              color: _isHovering
-                                  ? AppColors.primary
-                                  : AppColors.textMuted,
-                            ),
+                            child: Icon(widget.data.icon,
+                                size: 16, color: widget.data.color),
                           ),
                           const SizedBox(width: AppSpacing.md),
-                          // Date badge on mobile - inline with icon
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.md,
-                              vertical: AppSpacing.xs,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.accent.withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(AppRadius.sm),
-                            ),
-                            child: Text(
-                              widget.data.date,
-                              style: GoogleFonts.inter(
-                                color: AppColors.accent,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                        ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.data.role,
+                                style: GoogleFonts.spaceGrotesk(
+                                  color: AppColors.textPrimary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
+                              const SizedBox(height: 2),
+                              Text(
+                                widget.data.company,
+                                style: GoogleFonts.inter(
+                                  color: widget.data.color,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.data.isCurrent
+                                ? AppColors.primary.withValues(alpha: 0.15)
+                                : AppColors.surfaceVariant,
+                            borderRadius: BorderRadius.circular(AppRadius.full),
+                            border: Border.all(
+                              color: widget.data.isCurrent
+                                  ? AppColors.primaryLight
+                                      .withValues(alpha: 0.4)
+                                  : AppColors.border,
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                    ],
-                    // Title + Company
-                    if (isMobile) ...[
-                      Text(
-                        widget.data.title,
-                        style: GoogleFonts.spaceGrotesk(
-                          color: AppColors.textPrimary,
-                          fontSize: isSmallMobile ? 16 : 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '@ ${widget.data.company}',
-                        style: GoogleFonts.inter(
-                          color: AppColors.primary,
-                          fontSize: isSmallMobile ? 13 : 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ] else
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: AppSpacing.sm,
-                        children: [
-                          Text(
-                            widget.data.title,
-                            style: GoogleFonts.spaceGrotesk(
-                              color: AppColors.textPrimary,
-                              fontSize: 20,
+                          child: Text(
+                            widget.data.period,
+                            style: GoogleFonts.sourceCodePro(
+                              color: widget.data.isCurrent
+                                  ? AppColors.primaryLight
+                                  : AppColors.textSecondary,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Text(
-                            '@ ${widget.data.company}',
-                            style: GoogleFonts.inter(
-                              color: AppColors.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    const SizedBox(height: AppSpacing.sm),
-                    // Date badge (desktop only - mobile shows it inline with icon)
-                    if (!isMobile)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.md,
-                          vertical: AppSpacing.xs,
                         ),
-                        decoration: BoxDecoration(
-                          color: AppColors.accent.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(AppRadius.sm),
-                        ),
-                        child: Text(
-                          widget.data.date,
-                          style: GoogleFonts.inter(
-                            color: AppColors.accent,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    const SizedBox(height: AppSpacing.lg),
-                    // Details
-                    ...widget.data.details.map(
-                      (detail) => Padding(
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    const Divider(color: AppColors.border, height: 1),
+                    const SizedBox(height: AppSpacing.md),
+
+                    // Highlights
+                    ...widget.data.highlights.map(
+                      (highlight) => Padding(
                         padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,7 +323,7 @@ class _TimelineItemState extends State<_TimelineItem> {
                                 width: 6,
                                 height: 6,
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.6),
+                                  color: widget.data.color,
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -345,10 +331,10 @@ class _TimelineItemState extends State<_TimelineItem> {
                             const SizedBox(width: AppSpacing.md),
                             Expanded(
                               child: Text(
-                                detail,
+                                highlight,
                                 style: GoogleFonts.inter(
                                   color: AppColors.textSecondary,
-                                  fontSize: isMobile ? 13 : 15,
+                                  fontSize: 14,
                                   height: 1.6,
                                 ),
                               ),

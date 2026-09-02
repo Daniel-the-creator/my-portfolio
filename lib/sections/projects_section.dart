@@ -3,90 +3,120 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common_widgets.dart';
-import '../widgets/scroll_reveal.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
 
-  static final List<_ProjectData> _projects = [
-    const _ProjectData(
+  static const List<_ProjectData> _projects = [
+    _ProjectData(
       title: 'Exeat Management System',
+      category: 'Web/Mobile Application',
       description:
-          'A digital solution for university students to request exeat permissions. '
-          'Includes real-time approval notifications and a comprehensive admin dashboard.',
-      techStack: ['Flutter', 'Firebase', 'Dart'],
+          'A comprehensive digital exeat permission system for university students. '
+          'Features real-time approvals, instant push notifications, administrative analytics dashboard, and secure cloud authentication.',
+      techStack: ['Flutter', 'Firebase', 'Dart', 'Cloud Firestore'],
       icon: Icons.security_rounded,
-      color: Color(0xFF6C63FF),
+      imagePath: 'assets/exeat.png',
+      gradient: LinearGradient(
+        colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      accentColor: Color(0xFF818CF8),
       liveUrl: 'https://exeat-management-system-project.vercel.app/',
       githubUrl: null,
+      isFeatured: true,
     ),
-    const _ProjectData(
-      title: 'Personal Portfolio',
+    _ProjectData(
+      title: 'Personal Developer Portfolio',
+      category: 'Web Application',
       description:
-          'A modern, responsive personal portfolio website showcasing professional '
-          'experience, skills, and featured technical projects.',
-      techStack: ['Flutter Web', 'Dart', 'Responsive UI'],
-      icon: Icons.person_rounded,
-      color: Color(0xFF00D9FF),
+          'A high-performance personal portfolio website built with Flutter Web, '
+          'featuring dark obsidian aesthetic, responsive layouts, smooth scroll navigation, and modern micro-interactions.',
+      techStack: ['Flutter Web', 'Dart', 'Responsive UI', 'Glassmorphism'],
+      icon: Icons.person_pin_circle_rounded,
+      imagePath: null,
+      gradient: LinearGradient(
+        colors: [Color(0xFF06B6D4), Color(0xFF3B82F6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      accentColor: Color(0xFF38BDF8),
       liveUrl: null,
-      githubUrl: null,
+      githubUrl: 'https://github.com/Daniel-the-creator',
+      isFeatured: false,
     ),
-    const _ProjectData(
-      title: 'Jenious Landing Page',
-      description:
-          'A high-performance landing page developed for Jenious Agency, focusing '
-          'on clean typography, smooth animations, and solid UX.',
-      techStack: ['HTML', 'CSS', 'JavaScript'],
+    _ProjectData(
+      title: 'Jenious Agency Website Page',
+      category: 'Web/Mobile Application',
+      description: 'A fast, responsive Website engineered for Jenious Agency, '
+          'focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.',
+      techStack: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX Design'],
       icon: Icons.web_rounded,
-      color: Color(0xFFE040FB),
-      liveUrl: null,
+      imagePath: 'assets/jenios.png',
+      gradient: LinearGradient(
+        colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      accentColor: Color(0xFFF472B6),
+      liveUrl: 'https://jenios-agency.vercel.app/',
       githubUrl: null,
+      isFeatured: false,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final isMobile = width < 800;
-    final isTablet = width >= 800 && width < 1100;
+    final isMobile = width < 850;
 
     return Container(
-      constraints: const BoxConstraints(maxWidth: 1100),
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxxl,
-        vertical: AppSpacing.massive,
+        vertical: AppSpacing.huge,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const ScrollReveal(
-            key: ValueKey('proj_title'),
-            child: SectionTitle(number: '03.', title: 'Featured Projects'),
-          ),
-          const SizedBox(height: AppSpacing.xxxl),
-          // Project grid
-          Wrap(
-            spacing: AppSpacing.xl,
-            runSpacing: AppSpacing.xl,
-            children: List.generate(_projects.length, (index) {
-              final project = _projects[index];
-              final cardWidth = isMobile
-                  ? width - (AppSpacing.xl * 2)
-                  : isTablet
-                      ? (width - AppSpacing.xxxl * 2 - AppSpacing.xl) / 2
-                      : (1100 - AppSpacing.xxxl * 2 - AppSpacing.xl * 2) / 3;
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1160),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SectionTitle(
+                number: '03',
+                title: 'Featured Projects',
+                subtitle:
+                    'Some of the real-world applications and digital products I have built',
+              ),
+              const SizedBox(height: AppSpacing.xxxl),
 
-              return ScrollReveal(
-                key: ValueKey('proj_card_$index'),
-                index: index,
-                child: SizedBox(
-                  width: cardWidth.clamp(280, 500),
-                  child: _ProjectCard(data: project),
+              // Projects Grid
+              if (isMobile)
+                Column(
+                  children: _projects
+                      .map((p) => Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: AppSpacing.xl),
+                            child: _ProjectCard(data: p),
+                          ))
+                      .toList(),
+                )
+              else
+                Wrap(
+                  spacing: AppSpacing.xl,
+                  runSpacing: AppSpacing.xl,
+                  children: _projects.map((p) {
+                    const cardWidth = (1160 - AppSpacing.xl * 2) / 3;
+                    return SizedBox(
+                      width: cardWidth.clamp(320, 370),
+                      child: _ProjectCard(data: p),
+                    );
+                  }).toList(),
                 ),
-              );
-            }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -94,21 +124,29 @@ class ProjectsSection extends StatelessWidget {
 
 class _ProjectData {
   final String title;
+  final String category;
   final String description;
   final List<String> techStack;
   final IconData icon;
-  final Color color;
+  final String? imagePath;
+  final Gradient gradient;
+  final Color accentColor;
   final String? liveUrl;
   final String? githubUrl;
+  final bool isFeatured;
 
   const _ProjectData({
     required this.title,
+    required this.category,
     required this.description,
     required this.techStack,
     required this.icon,
-    required this.color,
+    this.imagePath,
+    required this.gradient,
+    required this.accentColor,
     this.liveUrl,
     this.githubUrl,
+    this.isFeatured = false,
   });
 }
 
@@ -125,12 +163,50 @@ class _ProjectCardState extends State<_ProjectCard> {
   bool _isHovering = false;
 
   Future<void> _openUrl(String url) async {
-    final uri = Uri.parse(url);
     try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      debugPrint('Could not launch $url');
-    }
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } catch (_) {}
+  }
+
+  Widget _buildFallbackBanner() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: widget.data.gradient,
+      ),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.15,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.black, Colors.white.withValues(alpha: 0.2)],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.25),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: Icon(
+                widget.data.icon,
+                size: 44,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -138,186 +214,294 @@ class _ProjectCardState extends State<_ProjectCard> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
-      cursor: widget.data.liveUrl != null
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
-      child: GestureDetector(
-        onTap: () {
-          if (widget.data.liveUrl != null) {
-            _openUrl(widget.data.liveUrl!);
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-          transform: Matrix4.identity()
-            ..translate(0.0, _isHovering ? -6.0 : 0.0),
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          decoration: BoxDecoration(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        transform:
+            Matrix4.translationValues(0.0, _isHovering ? -6.0 : 0.0, 0.0),
+        decoration: BoxDecoration(
+          color: _isHovering ? AppColors.surfaceVariant : AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(
             color: _isHovering
-                ? AppColors.surfaceVariant.withOpacity(0.8)
-                : AppColors.surfaceVariant.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(
-              color: _isHovering
-                  ? widget.data.color.withOpacity(0.4)
-                  : AppColors.border.withOpacity(0.3),
-              width: 1,
-            ),
-            boxShadow: _isHovering
-                ? [
-                    BoxShadow(
-                      color: widget.data.color.withOpacity(0.15),
-                      blurRadius: 30,
-                      offset: const Offset(0, 10),
-                    ),
-                  ]
-                : [],
+                ? widget.data.accentColor.withValues(alpha: 0.6)
+                : AppColors.border,
+            width: 1,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Header row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Icon
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    decoration: BoxDecoration(
-                      color: widget.data.color.withOpacity(
-                        _isHovering ? 0.15 : 0.08,
+          boxShadow: _isHovering
+              ? [
+                  BoxShadow(
+                    color: widget.data.accentColor.withValues(alpha: 0.15),
+                    blurRadius: 28,
+                    offset: const Offset(0, 10),
+                  ),
+                ]
+              : null,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Card Banner Preview with Screenshot
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(AppRadius.xl - 1),
+                topRight: Radius.circular(AppRadius.xl - 1),
+              ),
+              child: SizedBox(
+                height: 180,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    if (widget.data.imagePath != null)
+                      Positioned.fill(
+                        child: Image.asset(
+                          widget.data.imagePath!,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                          errorBuilder: (_, __, ___) => _buildFallbackBanner(),
+                        ),
+                      )
+                    else
+                      Positioned.fill(
+                        child: _buildFallbackBanner(),
                       ),
-                      borderRadius: BorderRadius.circular(AppRadius.md),
+
+                    // Gradient shade over image for readability
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              AppColors.surface.withValues(alpha: 0.75),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Icon(
-                      widget.data.icon,
-                      color: widget.data.color,
-                      size: 28,
+
+                    // Featured Badge
+                    if (widget.data.isFeatured)
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.6),
+                            borderRadius: BorderRadius.circular(AppRadius.full),
+                            border: Border.all(
+                                color: widget.data.accentColor
+                                    .withValues(alpha: 0.5)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.star_rounded,
+                                  size: 12, color: widget.data.accentColor),
+                              const SizedBox(width: 4),
+                              Text(
+                                'FEATURED',
+                                style: GoogleFonts.sourceCodePro(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Card Body
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.data.category.toUpperCase(),
+                    style: GoogleFonts.sourceCodePro(
+                      color: widget.data.accentColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
                     ),
                   ),
-                  // Action icons
+                  const SizedBox(height: 6),
+                  Text(
+                    widget.data.title,
+                    style: GoogleFonts.spaceGrotesk(
+                      color: AppColors.textPrimary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Text(
+                    widget.data.description,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                      height: 1.6,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+
+                  // Tech Tags
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: widget.data.techStack.map((tech) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceVariant,
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Text(
+                          tech,
+                          style: GoogleFonts.inter(
+                            color: AppColors.textSecondary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+
+                  // Action Buttons
                   Row(
                     children: [
-                      if (widget.data.liveUrl != null)
-                        _ActionIcon(
-                          icon: Icons.open_in_new_rounded,
-                          tooltip: 'Live Demo',
-                          onTap: () => _openUrl(widget.data.liveUrl!),
+                      if (widget.data.liveUrl != null) ...[
+                        Expanded(
+                          child: _CardActionButton(
+                            label: 'Live Demo',
+                            icon: Icons.open_in_new_rounded,
+                            isPrimary: true,
+                            color: widget.data.accentColor,
+                            onTap: () => _openUrl(widget.data.liveUrl!),
+                          ),
                         ),
-                      if (widget.data.githubUrl != null) ...[
                         const SizedBox(width: AppSpacing.sm),
-                        _ActionIcon(
-                          icon: Icons.code_rounded,
-                          tooltip: 'Source Code',
-                          onTap: () => _openUrl(widget.data.githubUrl!),
-                        ),
                       ],
+                      if (widget.data.githubUrl != null)
+                        Expanded(
+                          child: _CardActionButton(
+                            label: 'Source Code',
+                            icon: Icons.code_rounded,
+                            isPrimary: widget.data.liveUrl == null,
+                            color: widget.data.accentColor,
+                            onTap: () => _openUrl(widget.data.githubUrl!),
+                          ),
+                        ),
+                      if (widget.data.liveUrl == null &&
+                          widget.data.githubUrl == null)
+                        Expanded(
+                          child: _CardActionButton(
+                            label: 'Client Project',
+                            icon: Icons.lock_outline_rounded,
+                            isPrimary: false,
+                            color: widget.data.accentColor,
+                            onTap: () {},
+                          ),
+                        ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.xl),
-              // Title
-              Text(
-                widget.data.title,
-                style: GoogleFonts.spaceGrotesk(
-                  color:
-                      _isHovering ? widget.data.color : AppColors.textPrimary,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              // Description
-              Text(
-                widget.data.description,
-                style: GoogleFonts.inter(
-                  color: AppColors.textSecondary,
-                  fontSize: 14,
-                  height: 1.6,
-                ),
-                maxLines: 4,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              // Tech stack
-              Wrap(
-                spacing: AppSpacing.sm,
-                runSpacing: AppSpacing.sm,
-                children: widget.data.techStack.map((tech) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                      vertical: AppSpacing.xs,
-                    ),
-                    decoration: BoxDecoration(
-                      color: widget.data.color.withOpacity(0.06),
-                      borderRadius: BorderRadius.circular(AppRadius.sm),
-                    ),
-                    child: Text(
-                      tech,
-                      style: GoogleFonts.inter(
-                        color: widget.data.color.withOpacity(0.8),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _ActionIcon extends StatefulWidget {
+class _CardActionButton extends StatefulWidget {
+  final String label;
   final IconData icon;
-  final String tooltip;
+  final bool isPrimary;
+  final Color color;
   final VoidCallback onTap;
 
-  const _ActionIcon({
+  const _CardActionButton({
+    required this.label,
     required this.icon,
-    required this.tooltip,
+    required this.isPrimary,
+    required this.color,
     required this.onTap,
   });
 
   @override
-  State<_ActionIcon> createState() => _ActionIconState();
+  State<_CardActionButton> createState() => _CardActionButtonState();
 }
 
-class _ActionIconState extends State<_ActionIcon> {
-  bool _isHovering = false;
+class _CardActionButtonState extends State<_CardActionButton> {
+  bool _hover = false;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) => setState(() => _isHovering = true),
-      onExit: (_) => setState(() => _isHovering = false),
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
       cursor: SystemMouseCursors.click,
-      child: Tooltip(
-        message: widget.tooltip,
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            decoration: BoxDecoration(
-              color: _isHovering
-                  ? AppColors.primary.withOpacity(0.1)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          decoration: BoxDecoration(
+            color: widget.isPrimary
+                ? (_hover
+                    ? widget.color.withValues(alpha: 0.9)
+                    : widget.color.withValues(alpha: 0.8))
+                : (_hover
+                    ? AppColors.surfaceElevated
+                    : AppColors.surfaceVariant),
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            border: Border.all(
+              color: widget.isPrimary
+                  ? widget.color
+                  : (_hover
+                      ? widget.color.withValues(alpha: 0.5)
+                      : AppColors.border),
             ),
-            child: Icon(
-              widget.icon,
-              color: _isHovering ? AppColors.primary : AppColors.textMuted,
-              size: 20,
-            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.label,
+                style: GoogleFonts.inter(
+                  color:
+                      widget.isPrimary ? Colors.black : AppColors.textPrimary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Icon(
+                widget.icon,
+                size: 14,
+                color:
+                    widget.isPrimary ? Colors.black : AppColors.textSecondary,
+              ),
+            ],
           ),
         ),
       ),
