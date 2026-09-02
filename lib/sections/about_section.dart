@@ -318,7 +318,7 @@ class AboutSection extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            'Dominion University, Ibadan (2022 – Present)',
+            'Dominion University, Ibadan (2022 – 2026)',
             style: GoogleFonts.inter(
               color: AppColors.primaryLight,
               fontSize: 13,
