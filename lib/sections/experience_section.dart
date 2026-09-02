@@ -237,10 +237,13 @@ class _TimelineTileState extends State<_TimelineTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Top Row: Role + Period Badge
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.isMobile) ...[
+                    // On mobile: icon + role/company stack, period badge on next line
+                    // On desktop: role/company expanded + period badge inline
+                    if (widget.isMobile) ...[  
+                      // Mobile: icon + text side by side
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -251,61 +254,122 @@ class _TimelineTileState extends State<_TimelineTile> {
                                 size: 16, color: widget.data.color),
                           ),
                           const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.data.role,
+                                  style: GoogleFonts.spaceGrotesk(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  widget.data.company,
+                                  style: GoogleFonts.inter(
+                                    color: widget.data.color,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.data.role,
-                                style: GoogleFonts.spaceGrotesk(
-                                  color: AppColors.textPrimary,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                widget.data.company,
-                                style: GoogleFonts.inter(
-                                  color: widget.data.color,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      // Period badge on its own row on mobile
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
+                        decoration: BoxDecoration(
+                          color: widget.data.isCurrent
+                              ? AppColors.primary.withValues(alpha: 0.15)
+                              : AppColors.surfaceVariant,
+                          borderRadius: BorderRadius.circular(AppRadius.full),
+                          border: Border.all(
                             color: widget.data.isCurrent
-                                ? AppColors.primary.withValues(alpha: 0.15)
-                                : AppColors.surfaceVariant,
-                            borderRadius: BorderRadius.circular(AppRadius.full),
-                            border: Border.all(
-                              color: widget.data.isCurrent
-                                  ? AppColors.primaryLight
-                                      .withValues(alpha: 0.4)
-                                  : AppColors.border,
-                            ),
-                          ),
-                          child: Text(
-                            widget.data.period,
-                            style: GoogleFonts.sourceCodePro(
-                              color: widget.data.isCurrent
-                                  ? AppColors.primaryLight
-                                  : AppColors.textSecondary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
+                                ? AppColors.primaryLight.withValues(alpha: 0.4)
+                                : AppColors.border,
                           ),
                         ),
-                      ],
-                    ),
+                        child: Text(
+                          widget.data.period,
+                          style: GoogleFonts.sourceCodePro(
+                            color: widget.data.isCurrent
+                                ? AppColors.primaryLight
+                                : AppColors.textSecondary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ] else ...[  
+                      // Desktop: role/company + inline period badge
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.data.role,
+                                  style: GoogleFonts.spaceGrotesk(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  widget.data.company,
+                                  style: GoogleFonts.inter(
+                                    color: widget.data.color,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: widget.data.isCurrent
+                                  ? AppColors.primary.withValues(alpha: 0.15)
+                                  : AppColors.surfaceVariant,
+                              borderRadius:
+                                  BorderRadius.circular(AppRadius.full),
+                              border: Border.all(
+                                color: widget.data.isCurrent
+                                    ? AppColors.primaryLight
+                                        .withValues(alpha: 0.4)
+                                    : AppColors.border,
+                              ),
+                            ),
+                            child: Text(
+                              widget.data.period,
+                              style: GoogleFonts.sourceCodePro(
+                                color: widget.data.isCurrent
+                                    ? AppColors.primaryLight
+                                    : AppColors.textSecondary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: AppSpacing.md),
                     const Divider(color: AppColors.border, height: 1),
                     const SizedBox(height: AppSpacing.md),

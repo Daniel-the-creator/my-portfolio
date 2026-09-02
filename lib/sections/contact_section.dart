@@ -71,7 +71,8 @@ class _ContactSectionState extends State<ContactSection> {
     final Uri mailtoUri = Uri(
       scheme: 'mailto',
       path: recipientEmail,
-      query: 'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}',
+      query:
+          'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}',
     );
 
     try {
@@ -83,7 +84,8 @@ class _ContactSectionState extends State<ContactSection> {
     } catch (_) {
       setState(() {
         _sending = false;
-        _errorMessage = 'Could not send message automatically. Please email danielilesanmi04@gmail.com directly.';
+        _errorMessage =
+            'Could not send message automatically. Please email danielilesanmi04@gmail.com directly.';
       });
     }
   }
@@ -165,7 +167,8 @@ class _ContactSectionState extends State<ContactSection> {
 
               // Contact Form Card
               GlassCard(
-                padding: EdgeInsets.all(isMobile ? AppSpacing.xl : AppSpacing.xxl),
+                padding:
+                    EdgeInsets.all(isMobile ? AppSpacing.xl : AppSpacing.xxl),
                 child: _sent
                     ? _buildSuccessState()
                     : Form(
@@ -196,18 +199,25 @@ class _ContactSectionState extends State<ContactSection> {
                               Container(
                                 padding: const EdgeInsets.all(AppSpacing.md),
                                 decoration: BoxDecoration(
-                                  color: Colors.redAccent.withValues(alpha: 0.15),
-                                  borderRadius: BorderRadius.circular(AppRadius.md),
-                                  border: Border.all(color: Colors.redAccent.withValues(alpha: 0.4)),
+                                  color:
+                                      Colors.redAccent.withValues(alpha: 0.15),
+                                  borderRadius:
+                                      BorderRadius.circular(AppRadius.md),
+                                  border: Border.all(
+                                      color: Colors.redAccent
+                                          .withValues(alpha: 0.4)),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 18),
+                                    const Icon(Icons.error_outline_rounded,
+                                        color: Colors.redAccent, size: 18),
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Text(
                                         _errorMessage!,
-                                        style: GoogleFonts.inter(color: Colors.redAccent, fontSize: 13),
+                                        style: GoogleFonts.inter(
+                                            color: Colors.redAccent,
+                                            fontSize: 13),
                                       ),
                                     ),
                                   ],
@@ -218,7 +228,9 @@ class _ContactSectionState extends State<ContactSection> {
                             SizedBox(
                               width: double.infinity,
                               child: PrimaryButton(
-                                text: _sending ? 'Sending directly to inbox...' : 'Send Message',
+                                text: _sending
+                                    ? 'Sending directly to inbox...'
+                                    : 'Send Message',
                                 icon: Icons.send_rounded,
                                 onPressed: _sending ? () {} : _sendMessage,
                               ),
@@ -235,9 +247,12 @@ class _ContactSectionState extends State<ContactSection> {
                 runSpacing: AppSpacing.md,
                 alignment: WrapAlignment.center,
                 children: [
-                  _buildContactChip(Icons.phone_iphone_rounded, '+234 704 567 8882'),
-                  _buildContactChip(Icons.location_on_outlined, 'Ibadan, Nigeria'),
-                  _buildContactChip(Icons.mail_outline_rounded, 'danielilesanmi04@gmail.com'),
+                  _buildContactChip(
+                      Icons.phone_iphone_rounded, '+234 704 567 8882'),
+                  _buildContactChip(
+                      Icons.location_on_outlined, 'Ibadan, Nigeria'),
+                  _buildContactChip(
+                      Icons.mail_outline_rounded, 'danielilesanmi04@gmail.com'),
                 ],
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -254,14 +269,8 @@ class _ContactSectionState extends State<ContactSection> {
                   SizedBox(width: AppSpacing.lg),
                   _SocialIconButton(
                     icon: Icons.work_outline_rounded,
-                    url: 'https://linkedin.com',
+                    url: 'linkedin.com/in/daniel-ilesanmi-2745a1322/ ',
                     tooltip: 'LinkedIn',
-                  ),
-                  SizedBox(width: AppSpacing.lg),
-                  _SocialIconButton(
-                    icon: Icons.alternate_email_rounded,
-                    url: 'https://twitter.com',
-                    tooltip: 'Twitter / X',
                   ),
                 ],
               ),
@@ -293,7 +302,8 @@ class _ContactSectionState extends State<ContactSection> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.favorite_rounded, color: AppColors.primaryLight, size: 13),
+                  const Icon(Icons.favorite_rounded,
+                      color: AppColors.primaryLight, size: 13),
                   const SizedBox(width: 4),
                   Text(
                     'Built with Flutter Web',
@@ -463,7 +473,8 @@ class _SocialIconButtonState extends State<_SocialIconButton> {
         child: GestureDetector(
           onTap: () async {
             try {
-              await launchUrl(Uri.parse(widget.url), mode: LaunchMode.externalApplication);
+              await launchUrl(Uri.parse(widget.url),
+                  mode: LaunchMode.externalApplication);
             } catch (_) {}
           },
           child: AnimatedContainer(

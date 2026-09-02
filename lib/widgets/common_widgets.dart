@@ -302,6 +302,10 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 850;
+    final isSmall = width < 480;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -330,16 +334,18 @@ class SectionTitle extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.md),
-            Text(
-              title,
-              style: GoogleFonts.spaceGrotesk(
-                color: AppColors.textPrimary,
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
+            Flexible(
+              child: Text(
+                title,
+                style: GoogleFonts.spaceGrotesk(
+                  color: AppColors.textPrimary,
+                  fontSize: isSmall ? 20 : isMobile ? 24 : 32,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
+                ),
               ),
             ),
-            const SizedBox(width: AppSpacing.xl),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Container(
                 height: 1,
@@ -361,7 +367,7 @@ class SectionTitle extends StatelessWidget {
             subtitle!,
             style: GoogleFonts.inter(
               color: AppColors.textSecondary,
-              fontSize: 15,
+              fontSize: isSmall ? 13 : 15,
             ),
           ),
         ],

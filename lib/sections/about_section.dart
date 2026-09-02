@@ -33,9 +33,9 @@ class AboutSection extends StatelessWidget {
 
               // Bento Grid Layout
               if (isMobile)
-                _buildMobileBento(context)
+                _buildMobileBento(context, isMobile: true)
               else
-                _buildDesktopBento(context),
+                _buildDesktopBento(context, isMobile: false),
             ],
           ),
         ),
@@ -43,7 +43,7 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildDesktopBento(BuildContext context) {
+  Widget _buildDesktopBento(BuildContext context, {required bool isMobile}) {
     return Column(
       children: [
         // Row 1: Bio Card (Expanded) + Quick Stats (Flex 5)
@@ -52,12 +52,12 @@ class AboutSection extends StatelessWidget {
           children: [
             Expanded(
               flex: 7,
-              child: _buildBioCard(),
+              child: _buildBioCard(isMobile: isMobile),
             ),
             const SizedBox(width: AppSpacing.xl),
             Expanded(
               flex: 5,
-              child: _buildStatsCard(),
+              child: _buildStatsCard(isMobile: isMobile),
             ),
           ],
         ),
@@ -69,12 +69,12 @@ class AboutSection extends StatelessWidget {
           children: [
             Expanded(
               flex: 7,
-              child: _buildSkillsCard(),
+              child: _buildSkillsCard(isMobile: isMobile),
             ),
             const SizedBox(width: AppSpacing.xl),
             Expanded(
               flex: 5,
-              child: _buildEducationCard(),
+              child: _buildEducationCard(isMobile: isMobile),
             ),
           ],
         ),
@@ -82,21 +82,21 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileBento(BuildContext context) {
+  Widget _buildMobileBento(BuildContext context, {required bool isMobile}) {
     return Column(
       children: [
-        _buildBioCard(),
+        _buildBioCard(isMobile: isMobile),
         const SizedBox(height: AppSpacing.lg),
-        _buildStatsCard(),
+        _buildStatsCard(isMobile: isMobile),
         const SizedBox(height: AppSpacing.lg),
-        _buildSkillsCard(),
+        _buildSkillsCard(isMobile: isMobile),
         const SizedBox(height: AppSpacing.lg),
-        _buildEducationCard(),
+        _buildEducationCard(isMobile: isMobile),
       ],
     );
   }
 
-  Widget _buildBioCard() {
+  Widget _buildBioCard({bool isMobile = false}) {
     return GlassCard(
       enableHover: true,
       child: Column(
@@ -117,12 +117,14 @@ class AboutSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
-              Text(
-                'Background & Discipline',
-                style: GoogleFonts.spaceGrotesk(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  'Background & Discipline',
+                  style: GoogleFonts.spaceGrotesk(
+                    color: AppColors.textPrimary,
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -151,7 +153,7 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsCard() {
+  Widget _buildStatsCard({bool isMobile = false}) {
     return GlassCard(
       enableHover: true,
       child: Column(
@@ -172,12 +174,14 @@ class AboutSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
-              Text(
-                'Track Record',
-                style: GoogleFonts.spaceGrotesk(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  'Track Record',
+                  style: GoogleFonts.spaceGrotesk(
+                    color: AppColors.textPrimary,
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -222,7 +226,7 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildSkillsCard() {
+  Widget _buildSkillsCard({bool isMobile = false}) {
     return GlassCard(
       enableHover: true,
       child: Column(
@@ -243,12 +247,14 @@ class AboutSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
-              Text(
-                'Technical Toolbelt',
-                style: GoogleFonts.spaceGrotesk(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  'Technical Toolbelt',
+                  style: GoogleFonts.spaceGrotesk(
+                    color: AppColors.textPrimary,
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -276,7 +282,7 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildEducationCard() {
+  Widget _buildEducationCard({bool isMobile = false}) {
     return GlassCard(
       enableHover: true,
       child: Column(
@@ -297,12 +303,14 @@ class AboutSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
-              Text(
-                'Education & Activities',
-                style: GoogleFonts.spaceGrotesk(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  'Education & Activities',
+                  style: GoogleFonts.spaceGrotesk(
+                    color: AppColors.textPrimary,
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
