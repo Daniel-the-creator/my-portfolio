@@ -269,7 +269,8 @@ class _ContactSectionState extends State<ContactSection> {
                   SizedBox(width: AppSpacing.lg),
                   _SocialIconButton(
                     icon: Icons.work_outline_rounded,
-                    url: 'linkedin.com/in/daniel-ilesanmi-2745a1322/ ',
+                    url:
+                        'https://www.linkedin.com/in/daniel-ilesanmi-2745a1322/',
                     tooltip: 'LinkedIn',
                   ),
                 ],
