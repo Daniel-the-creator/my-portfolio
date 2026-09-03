@@ -64,16 +64,24 @@ class ProjectsSection extends StatelessWidget {
       githubUrl: null,
       isFeatured: false,
     ),
-     _ProjectData(
+    _ProjectData(
       title: 'Abimot food and farm produce Website',
       category: 'Web/Mobile Application',
-      description: 'A fast, responsive Website engineered for Abimot food and farm produce,'
+      description:
+          'A fast, responsive Website engineered for Abimot food and farm produce,'
           'focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.',
-      techStack: ['Flutter Web', 'Dart', 'Responsive UI',],
+      techStack: [
+        'Flutter Web',
+        'Dart',
+        'Responsive UI',
+      ],
       icon: Icons.web_rounded,
       imagePath: 'assets/abimot.png',
       gradient: LinearGradient(
-        colors: [Color.fromARGB(255, 216, 23, 23), Color.fromARGB(255, 114, 203, 244)],
+        colors: [
+          Color.fromARGB(255, 216, 23, 23),
+          Color.fromARGB(255, 114, 203, 244)
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
