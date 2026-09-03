@@ -43,7 +43,7 @@ class ProjectsSection extends StatelessWidget {
       ),
       accentColor: Color(0xFF38BDF8),
       liveUrl: null,
-      githubUrl: 'https://github.com/Daniel-the-creator',
+      githubUrl: 'https://github.com/Daniel-the-creator/my-portfolio',
       isFeatured: false,
     ),
     _ProjectData(
@@ -51,7 +51,7 @@ class ProjectsSection extends StatelessWidget {
       category: 'Web/Mobile Application',
       description: 'A fast, responsive Website engineered for Jenious Agency, '
           'focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.',
-      techStack: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX Design'],
+      techStack: ['Flutter Web', 'Dart', 'Responsive UI', 'Glassmorphism'],
       icon: Icons.web_rounded,
       imagePath: 'assets/jenios.png',
       gradient: LinearGradient(
