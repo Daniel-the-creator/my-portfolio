@@ -171,7 +171,7 @@ class HeroSection extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 540),
           child: Text(
             'Crafting high-performance cross-platform mobile apps and elegant web experiences. '
-            'Currently leading frontend engineering at Jenious Agency and studying Software Engineering at Dominion University.',
+            'Currently leading frontend engineering at Jenious Agency and a recent Software Engineering graduate from Dominion University.',
             textAlign: isMobile ? TextAlign.center : TextAlign.start,
             style: GoogleFonts.inter(
               color: AppColors.textSecondary,
@@ -237,7 +237,8 @@ class _HeroVisualDesktopState extends State<_HeroVisualDesktop> {
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      AppColors.primary.withValues(alpha: _isHovering ? 0.35 : 0.2),
+                      AppColors.primary
+                          .withValues(alpha: _isHovering ? 0.35 : 0.2),
                       Colors.transparent,
                     ],
                   ),
@@ -423,7 +424,8 @@ class _TechTickerRibbon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xl, vertical: AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surface.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(AppRadius.lg),
