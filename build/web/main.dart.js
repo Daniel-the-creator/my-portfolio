@@ -81042,7 +81042,7 @@ o=A.a9b(q,q,q,B.e3,q,q,!0,q,A.dx(A.c([B.QA,new A.kY(A.a1t("Daniel Ilesanmi",B.ky
 m=b?B.bZ:B.aQ
 m=A.b0("Full-Stack Developer & Mobile Engineer",q,q,q,A.bQ().$4$color$fontSize$fontWeight$letterSpacing(B.eo,b?18:22,B.aq,-0.2),m,q)
 s=b?B.bZ:B.aQ
-s=A.b0("Crafting high-performance cross-platform mobile apps and elegant web experiences. Currently leading frontend engineering at Jenious Agency and studying Software Engineering at Dominion University.",q,q,q,A.bQ().$3$color$fontSize$height(B.a2,b?15:16,1.7),s,q)
+s=A.b0("Crafting high-performance cross-platform mobile apps and elegant web experiences. Currently leading frontend engineering at Jenious Agency and a recent Software Engineering graduate from Dominion University.",q,q,q,A.bQ().$3$color$fontSize$height(B.a2,b?15:16,1.7),s,q)
 r=b?B.iz:B.cn
 return A.cy(A.c([n,B.cF,o,B.dc,m,B.aP,new A.dL(B.AP,s,q),B.io,A.Nk(r,A.c([A.avL(B.EZ,this.d,"View My Work"),new A.pa("Get In Touch",this.c,B.nU,q)],l),B.e9,12,12)],l),p,B.v)}}
 A.Cu.prototype={
