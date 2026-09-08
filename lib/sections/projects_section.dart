@@ -104,15 +104,12 @@ class ProjectsSection extends StatelessWidget {
       icon: Icons.web_rounded,
       imagePath: 'assets/diles.png',
      gradient: LinearGradient(
-        colors: [
-          Color.fromARGB(255, 216, 23, 23),
-          Color.fromARGB(255, 114, 203, 244)
-        ],
+        colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
       accentColor: Color.fromARGB(255, 246, 141, 92),
-      liveUrl: 'https://abimot-food-and-farm-produce.vercel.app/',
+      liveUrl: 'http://diles-logistics-management-system.vercel.app/',
       githubUrl: null,
       isFeatured: false,
     ),
