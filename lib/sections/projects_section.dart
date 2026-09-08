@@ -103,7 +103,7 @@ class ProjectsSection extends StatelessWidget {
       ],
       icon: Icons.web_rounded,
       imagePath: 'assets/diles.png',
-      gradient: LinearGradient(
+     gradient: LinearGradient(
         colors: [
           Color.fromARGB(255, 216, 23, 23),
           Color.fromARGB(255, 114, 203, 244)
