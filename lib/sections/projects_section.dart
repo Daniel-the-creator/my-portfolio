@@ -116,7 +116,11 @@ class ProjectsSection extends StatelessWidget {
       description:
           'A smart hospital management system designed to streamline patient flow, queues, consultations, diagnostics, billing, pharmacy, admission, and discharge.'
           'Built to connect patients and hospital staff through a seamless, organized digital workflow',
-      techStack: ['Flutter Web', 'Dart', 'Responsive UI', 'Glassmorphism'],
+      techStack: [
+        'Flutter Web',
+        'Dart',
+        'Responsive UI',
+      ],
       icon: Icons.web_rounded,
       imagePath: 'assets/medi.png',
       gradient: LinearGradient(
