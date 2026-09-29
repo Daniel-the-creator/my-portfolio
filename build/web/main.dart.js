@@ -7393,8 +7393,8 @@ s=B.d.dT((a-2)/1,0,13)
 r=B.i.dT(B.d.fJ(s),0,12)
 q=s-r
 p=1-q
-o=B.om[r]
-n=B.om[r+1]
+o=B.ol[r]
+n=B.ol[r+1]
 return new A.a6(p*o.a+q*n.a,p*o.b+q*n.b)},
 aJw(a){var s,r,q,p,o,n,m
 if(a>5){s=a-5
@@ -10933,8 +10933,8 @@ break
 case 5:s=l.a
 s===$&&A.a()
 s=A.bg(A.yh(s+240),40)
-r=A.bg(A.ZF(l,B.ol,B.Ip),24)
-q=A.bg(A.ZF(l,B.ol,B.Ir),32)
+r=A.bg(A.ZF(l,B.ok,B.Ip),24)
+q=A.bg(A.ZF(l,B.ok,B.Ir),32)
 p=A.bg(l.a+15,8)
 o=A.bg(l.a+15,12)
 l.d===$&&A.a()
@@ -16052,7 +16052,7 @@ _.dx=$},
 Dm:function Dm(){},
 Si:function Si(){},
 aw0(a,b){var s,r,q,p,o,n,m,l,k,j,i,h,g,f
-if(a==null)a=B.kB
+if(a==null)a=B.kA
 s=J.bi(a)
 r=s.gD(a)-1
 q=A.bl(0,null,!1,t.LQ)
@@ -16244,7 +16244,7 @@ r.gGJ()
 q.sGJ(r.gGJ())
 r.gGH()
 q.sGH(r.gGH())
-s.kR(B.kB,q)
+s.kR(B.kA,q)
 s.sba(b.gba())
 s.sbM(b.gbM())
 s.fx=b.gaon()
@@ -61677,7 +61677,7 @@ q.ao=b.c4
 q.cy=b.c
 q.a6=b.dl
 q.a9=b.bh
-q.aaO(a==null?B.kB:a)},
+q.aaO(a==null?B.kA:a)},
 VE(a){return this.kR(null,a)},
 Wc(){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1,b2,b3,b4,b5,b6=this,b7={}
 b7.a=b6.fy
@@ -76368,7 +76368,7 @@ grA(){return A.aNR()},
 a6w(){if(this.x)return
 this.w9()},
 Wb(){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c=this,b=null,a=c.c
-if(a===-1||c.d===-1||c.b.length===0)return new A.mm(b,b,B.e0,B.kC,c.b.length!==0)
+if(a===-1||c.d===-1||c.b.length===0)return new A.mm(b,b,B.e0,B.kB,c.b.length!==0)
 if(!c.as){a=c.JP(c.d,a)
 c.d=a
 c.c=c.JP(c.c,a)}s=c.b[c.d].gt()
@@ -81089,9 +81089,9 @@ $S:506}
 A.Kw.prototype={
 L(a){var s,r=null,q=A.bp(a,r,t.w).w.a.a<850,p=q?24:48,o=A.c([B.Nu,B.e1],t.p)
 if(q){s=t.Qe
-s=A.a0(new A.a1(B.ok,new A.a7R(),s),s.i("ae.E"))
+s=A.a0(new A.a1(B.op,new A.a7R(),s),s.i("ae.E"))
 o.push(A.cy(s,B.y,B.v))}else{s=t.fH
-s=A.a0(new A.a1(B.ok,new A.a7S(),s),s.i("ae.E"))
+s=A.a0(new A.a1(B.op,new A.a7S(),s),s.i("ae.E"))
 o.push(A.Nk(B.cn,s,B.eb,24,24))}return A.bt(r,A.fj(new A.dL(B.fG,A.cy(o,B.W,B.v),r),r,r),B.o,r,r,r,r,r,r,new A.ax(p,64,p,64),r,r,1/0)}}
 A.a7R.prototype={
 $1(a){return new A.cJ(B.Ef,new A.uD(a,null),null)},
@@ -86016,27 +86016,7 @@ B.Ww=new A.l6(6,0.11)
 B.Wu=new A.l6(8,0.12)
 B.Wt=new A.l6(12,0.14)
 B.oj=s([B.Ws,B.Wx,B.Wv,B.Ww,B.Wu,B.Wt],A.ai("w<l6>"))
-B.Hz=s(["Flutter","Firebase","Dart","Cloud Firestore"],t.s)
-B.Fd=new A.bs(983358,"MaterialIcons",!1)
-B.Xw=new A.f9("Exeat Management System","Web/Mobile Application","A comprehensive digital exeat permission system for university students. Features real-time approvals, instant push notifications, administrative analytics dashboard, and secure cloud authentication.",B.Hz,B.Fd,"assets/exeat.png",B.cX,B.a5,"https://exeat-management-system-project.vercel.app/",null,!0)
-B.kA=s(["Flutter Web","Dart","Responsive UI","Glassmorphism"],t.s)
-B.F9=new A.bs(983149,"MaterialIcons",!1)
-B.CM=new A.z(1,0.23137254901960785,0.5098039215686274,0.9647058823529412,B.f)
-B.Hm=s([B.ev,B.CM],t.W)
-B.od=new A.eX(B.c_,B.fC,B.aE,B.Hm,null,null)
-B.Xv=new A.f9("Personal Developer Portfolio","Web Application","A high-performance personal portfolio website built with Flutter Web, featuring dark obsidian aesthetic, responsive layouts, smooth scroll navigation, and modern micro-interactions.",B.kA,B.F9,null,B.od,B.du,null,"https://github.com/Daniel-the-creator/my-portfolio",!1)
-B.dH=new A.bs(983731,"MaterialIcons",!1)
-B.D7=new A.z(1,0.9254901960784314,0.2823529411764706,0.6,B.f)
-B.GI=s([B.D7,B.cx],t.W)
-B.oc=new A.eX(B.c_,B.fC,B.aE,B.GI,null,null)
-B.mI=new A.z(1,0.9568627450980393,0.4470588235294118,0.7137254901960784,B.f)
-B.Xx=new A.f9("Jenious Agency Website Page","Web/Mobile Application","A fast, responsive Website engineered for Jenious Agency, focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.kA,B.dH,"assets/jenios.png",B.oc,B.mI,"https://jenios-agency.vercel.app/",null,!1)
-B.op=s(["Flutter Web","Dart","Responsive UI"],t.s)
-B.Xz=new A.f9("Abimot food and farm produce Website","Web/Mobile Application","A fast, responsive Website engineered for Abimot food and farm produce,focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.op,B.dH,"assets/abimot.png",B.oc,B.mI,"https://abimot-food-and-farm-produce.vercel.app/",null,!1)
-B.Xy=new A.f9("Diles logistics management system","Web/Mobile Application","A fast, responsive Website engineered to manage logistics on ordering and delivery of services,focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.op,B.dH,"assets/diles.png",B.cX,B.a5,"https://diles-logistics-management-system.vercel.app/",null,!1)
-B.XA=new A.f9("hospital queue management system","mobile/Web Application","A smart hospital management system designed to streamline patient flow, queues, consultations, diagnostics, billing, pharmacy, admission, and discharge.Built to connect patients and hospital staff through a seamless, organized digital workflow",B.kA,B.dH,"assets/medi.png",B.od,B.du,"https://medicalflow.vercel.app/",null,!1)
-B.ok=s([B.Xw,B.Xv,B.Xx,B.Xz,B.Xy,B.XA],A.ai("w<f9>"))
-B.ol=s([0,21,51,121,151,191,271,321,360],t.n)
+B.ok=s([0,21,51,121,151,191,271,321,360],t.n)
 B.Hv=s([-1,0,0,1,0,0,-1,0,1,0,0,0,-1,1,0,1,1,1,1,0],t.n)
 B.Aw=new A.Gt(2,"outer")
 B.mQ=new A.z(0.09803921568627451,0,0,0,B.f)
@@ -86080,7 +86060,7 @@ B.N2=new A.a6(0.63903989,0.07759639)
 B.MI=new A.a6(0.66416338,0.0734653)
 B.MF=new A.a6(0.68675338,0.06974996)
 B.MX=new A.a6(0.70678034,0.06529512)
-B.om=s([B.N0,B.N_,B.ML,B.MP,B.MZ,B.ME,B.MJ,B.MM,B.MH,B.MV,B.N2,B.MI,B.MF,B.MX],A.ai("w<+(Q,Q)>"))
+B.ol=s([B.N0,B.N_,B.ML,B.MP,B.MZ,B.ME,B.MJ,B.MM,B.MH,B.MV,B.N2,B.MI,B.MF,B.MX],A.ai("w<+(Q,Q)>"))
 B.HP=s([35,30,20,25,30,35,30,25,25],t.n)
 B.HS=s(["click","scroll"],t.s)
 B.B1=new A.qe()
@@ -86097,9 +86077,9 @@ B.HX=s([],t.tc)
 B.hC=s([],t.jl)
 B.HZ=s([],t.wi)
 B.HY=s([],A.ai("w<avz<@>>"))
-B.kC=s([],t.AO)
+B.kB=s([],t.AO)
 B.I0=s([],t.D1)
-B.kB=s([],t.QF)
+B.kA=s([],t.QF)
 B.I3=s([],t.Lx)
 B.I8=s([],t.AS)
 B.Ya=s([],t.p)
@@ -86110,6 +86090,26 @@ B.I5=s([],t.XS)
 B.L0=new A.i(0,2)
 B.AU=new A.cx(0.75,B.bo,B.mQ,B.L0,1.5)
 B.Ie=s([B.AU],t.J)
+B.Hz=s(["Flutter","Firebase","Dart","Cloud Firestore"],t.s)
+B.Fd=new A.bs(983358,"MaterialIcons",!1)
+B.Xx=new A.f9("Exeat Management System","Web/Mobile Application","A comprehensive digital exeat permission system for university students. Features real-time approvals, instant push notifications, administrative analytics dashboard, and secure cloud authentication.",B.Hz,B.Fd,"assets/exeat.png",B.cX,B.a5,"https://exeat-management-system-project.vercel.app/",null,!0)
+B.om=s(["Flutter Web","Dart","Responsive UI","Glassmorphism"],t.s)
+B.F9=new A.bs(983149,"MaterialIcons",!1)
+B.CM=new A.z(1,0.23137254901960785,0.5098039215686274,0.9647058823529412,B.f)
+B.Hm=s([B.ev,B.CM],t.W)
+B.od=new A.eX(B.c_,B.fC,B.aE,B.Hm,null,null)
+B.Xw=new A.f9("Personal Developer Portfolio","Web Application","A high-performance personal portfolio website built with Flutter Web, featuring dark obsidian aesthetic, responsive layouts, smooth scroll navigation, and modern micro-interactions.",B.om,B.F9,null,B.od,B.du,null,"https://github.com/Daniel-the-creator/my-portfolio",!1)
+B.dH=new A.bs(983731,"MaterialIcons",!1)
+B.D7=new A.z(1,0.9254901960784314,0.2823529411764706,0.6,B.f)
+B.GI=s([B.D7,B.cx],t.W)
+B.oc=new A.eX(B.c_,B.fC,B.aE,B.GI,null,null)
+B.mI=new A.z(1,0.9568627450980393,0.4470588235294118,0.7137254901960784,B.f)
+B.Xy=new A.f9("Jenious Agency Website Page","Web/Mobile Application","A fast, responsive Website engineered for Jenious Agency, focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.om,B.dH,"assets/jenios.png",B.oc,B.mI,"https://jenios-agency.vercel.app/",null,!1)
+B.kC=s(["Flutter Web","Dart","Responsive UI"],t.s)
+B.XA=new A.f9("Abimot food and farm produce Website","Web/Mobile Application","A fast, responsive Website engineered for Abimot food and farm produce,focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.kC,B.dH,"assets/abimot.png",B.oc,B.mI,"https://abimot-food-and-farm-produce.vercel.app/",null,!1)
+B.Xz=new A.f9("Diles logistics management system","Web/Mobile Application","A fast, responsive Website engineered to manage logistics on ordering and delivery of services,focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.",B.kC,B.dH,"assets/diles.png",B.cX,B.a5,"https://diles-logistics-management-system.vercel.app/",null,!1)
+B.Xv=new A.f9("hospital queue management system","mobile/Web Application","A smart hospital management system designed to streamline patient flow, queues, consultations, diagnostics, billing, pharmacy, admission, and discharge.Built to connect patients and hospital staff through a seamless, organized digital workflow",B.kC,B.dH,"assets/medi.png",B.od,B.du,"https://medicalflow.vercel.app/",null,!1)
+B.op=s([B.Xx,B.Xw,B.Xy,B.XA,B.Xz,B.Xv],A.ai("w<f9>"))
 B.eT=s([B.cM,B.cs,B.fE,B.fF,B.j0],t.QP)
 B.H_=s([0.001200833568784504,0.002389694492170889,0.0002795742885861124],t.n)
 B.HU=s([0.0005891086651375999,0.0029785502573438758,0.0003270666104008398],t.n)
@@ -87249,8 +87249,8 @@ B.ld=new A.tf(1,"nextLine")
 B.i4=new A.tf(2,"forward")
 B.i5=new A.tf(3,"backward")
 B.e0=new A.zT(2,"none")
-B.yz=new A.mm(null,null,B.e0,B.kC,!0)
-B.yA=new A.mm(null,null,B.e0,B.kC,!1)
+B.yz=new A.mm(null,null,B.e0,B.kB,!0)
+B.yA=new A.mm(null,null,B.e0,B.kB,!1)
 B.z=new A.mn(0,"next")
 B.E=new A.mn(1,"previous")
 B.I=new A.mn(2,"end")
