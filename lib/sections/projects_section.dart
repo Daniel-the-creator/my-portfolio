@@ -110,6 +110,25 @@ class ProjectsSection extends StatelessWidget {
       githubUrl: null,
       isFeatured: false,
     ),
+    _ProjectData(
+      title: 'hospital queue management system',
+      category: 'mobile/Web Application',
+      description:
+          'A smart hospital management system designed to streamline patient flow, queues, consultations, diagnostics, billing, pharmacy, admission, and discharge.'
+          'Built to connect patients and hospital staff through a seamless, organized digital workflow',
+      techStack: ['Flutter Web', 'Dart', 'Responsive UI', 'Glassmorphism'],
+      icon: Icons.web_rounded,
+      imagePath: 'assets/medi.png',
+      gradient: LinearGradient(
+        colors: [Color(0xFF06B6D4), Color(0xFF3B82F6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      accentColor: Color(0xFF38BDF8),
+      liveUrl: 'https://medicalflow.vercel.app/',
+      githubUrl: null,
+      isFeatured: false,
+    ),
   ];
 
   @override
