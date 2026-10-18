@@ -412,6 +412,7 @@ class _TechTickerRibbon extends StatelessWidget {
   static const List<(String, IconData)> _items = [
     ('Flutter', Icons.phone_android_rounded),
     ('Dart', Icons.code_rounded),
+    ('React', Icons.mobile_screen_share_rounded),
     ('Firebase', Icons.cloud_rounded),
     ('JavaScript', Icons.javascript_rounded),
     ('REST APIs', Icons.api_rounded),

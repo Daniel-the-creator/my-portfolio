@@ -267,7 +267,10 @@ class AboutSection extends StatelessWidget {
               TechBadge(label: 'Flutter', icon: Icons.phone_android_rounded),
               TechBadge(label: 'Dart', icon: Icons.code_rounded),
               TechBadge(label: 'Firebase', icon: Icons.cloud_rounded),
+              TechBadge(
+                  label: 'React', icon: Icons.mobile_screen_share_rounded),
               TechBadge(label: 'JavaScript', icon: Icons.javascript_rounded),
+              TechBadge(label: 'Bootstrap', icon: Icons.code),
               TechBadge(label: 'HTML5 & CSS3', icon: Icons.web_rounded),
               TechBadge(label: 'REST APIs', icon: Icons.api_rounded),
               TechBadge(label: 'Git & GitHub', icon: Icons.merge_rounded),
