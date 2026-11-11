@@ -133,6 +133,28 @@ class ProjectsSection extends StatelessWidget {
       githubUrl: null,
       isFeatured: false,
     ),
+    _ProjectData(
+      title: 'MOTION THE BRAND Website',
+      category: 'Web/Mobile Application',
+      description:
+          'A fast, responsive Website engineered for Motion clothing brand products,'
+          'focused on conversion-driven UI, crisp typography, subtle scroll animations, and cross-browser responsiveness.',
+      techStack: [
+        'React',
+        'Responsive UI',
+      ],
+      icon: Icons.web_rounded,
+      imagePath: 'assets/motion.png',
+      gradient: LinearGradient(
+        colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      accentColor: Color(0xFFF472B6),
+      liveUrl: 'https://motion-clothing-brand.vercel.app/',
+      githubUrl: null,
+      isFeatured: false,
+    ),
   ];
 
   @override
