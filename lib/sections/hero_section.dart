@@ -171,7 +171,7 @@ class HeroSection extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 540),
           child: Text(
             'Crafting high-performance cross-platform mobile apps and elegant web experiences. '
-            'Currently leading frontend engineering at Jenious Agency and a recent Software Engineering graduate from Dominion University.',
+            'Currently leading frontend engineering at Jenious Agency and improving my skill in AI and prompt engineering',
             textAlign: isMobile ? TextAlign.center : TextAlign.start,
             style: GoogleFonts.inter(
               color: AppColors.textSecondary,
@@ -412,6 +412,7 @@ class _TechTickerRibbon extends StatelessWidget {
   static const List<(String, IconData)> _items = [
     ('Flutter', Icons.phone_android_rounded),
     ('Dart', Icons.code_rounded),
+    ('python', Icons.code),
     ('React', Icons.mobile_screen_share_rounded),
     ('Firebase', Icons.cloud_rounded),
     ('JavaScript', Icons.javascript_rounded),

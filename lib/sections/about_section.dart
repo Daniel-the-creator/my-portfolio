@@ -266,6 +266,7 @@ class AboutSection extends StatelessWidget {
             children: [
               TechBadge(label: 'Flutter', icon: Icons.phone_android_rounded),
               TechBadge(label: 'Dart', icon: Icons.code_rounded),
+              TechBadge(label: 'python', icon: Icons.code),
               TechBadge(label: 'Firebase', icon: Icons.cloud_rounded),
               TechBadge(
                   label: 'React', icon: Icons.mobile_screen_share_rounded),
